@@ -1,0 +1,24 @@
+#!/bin/bash -e
+
+ORG_PATH="github.com/nodetemple"
+REPO_PATH="${ORG_PATH}/nodetemple"
+
+if [ ! -h gopath/src/${REPO_PATH} ]; then
+	mkdir -p gopath/src/${ORG_PATH}
+	ln -s ../../../.. gopath/src/${REPO_PATH} || exit 255
+fi
+
+export GOBIN=${PWD}/bin
+export GOPATH=${PWD}/gopath
+
+eval $(go env)
+
+if [ ${GOOS} = "linux" ]; then
+	echo "Building noded..."
+	#CGO_ENABLED=0 go build -o bin/noded -a -installsuffix netgo -ldflags '-s' ${REPO_PATH}/noded
+else
+	echo "Not on Linux - skipping noded build"
+fi
+
+echo "Building nodectl..."
+CGO_ENABLED=0 go build -o bin/nodectl -a -installsuffix netgo -ldflags '-s' ${REPO_PATH}/nodectl
