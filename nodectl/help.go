@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strings"
 	"text/template"
+	
+	"github.com/nodetemple/nodetemple/version"
 )
 
 const (
@@ -117,7 +119,7 @@ func printGlobalUsage() {
 		commands,
 		getAllFlags(),
 		cliDescription,
-		Version,
+		version.Version,
 	})
 	out.Flush()
 }

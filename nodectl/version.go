@@ -1,7 +1,7 @@
 package main
 
-const (
-	Version = "0.0.1"
+import (
+	"github.com/nodetemple/nodetemple/version"
 )
 
 var (
@@ -15,6 +15,6 @@ var (
 )
 
 func runVersion(args []string) (exit int) {
-	stdout("%s version %s", cliName, Version)
+	stdout("%s version %s", cliName, version.Version)
 	return
 }
