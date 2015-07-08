@@ -1,6 +1,6 @@
 # Nodetemple
 
-CoreOS and Kubernetes cluster management tool
+CoreOS and Kubernetes cluster orchestration tool
 > **Warning!** This software is not production ready - use it at your own risk!
 
 ## Getting started

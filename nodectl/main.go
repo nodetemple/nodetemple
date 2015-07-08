@@ -11,7 +11,7 @@ import (
 const (
 	cliName			=	"nodectl"
 	cliEnvFlag		=	"NODECTL"
-	cliDescription	=	"nodectl is a command-line interface for a cluster-wide orchestration of CoreOS servers"
+	cliDescription	=	"nodectl is a command-line interface for an orchestration of CoreOS and Kubernetes cluster"
 )
 
 var (
