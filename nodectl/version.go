@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	cmdVersion = &Command{
+	cmdVersion = &Command {
 		Name:			"version",
 		Description:	"Print the version and exit",
 		Summary:		"Print the version and exit",

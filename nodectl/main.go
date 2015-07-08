@@ -9,85 +9,49 @@ import (
 )
 
 const (
-	cliName			=	"nodectl"
-	cliEnvFlag		=	"NODECTL"
-	cliDescription	=	"nodectl is a command-line interface for an orchestration of CoreOS and Kubernetes cluster"
+	cliName			= "nodectl"
+	cliDescription	= "nodectl is a command-line interface for an orchestration of CoreOS and Kubernetes cluster"
 )
 
 var (
 	out				*tabwriter.Writer
-	globalFlagset = flag.NewFlagSet("nodectl", flag.ExitOnError)
-	
-	commands []*Command
-	
-	globalFlags = struct {
-		Version		bool
+	commands		[]*Command
+	globalFlagset	= flag.NewFlagSet("nodectl", flag.ExitOnError)
+	globalFlags		= struct {
 		Help		bool
+		Version		bool
 		
 		SSHUserName	string
 	}{}
 )
 
+type Command struct {
+	Name		string
+	Description	string
+	Summary		string
+	Usage		string
+	Flags		flag.FlagSet
+	Run			func(args []string) int
+}
+
 func init() {
 	globalFlagset.BoolVar(&globalFlags.Help, "help", false, "Print usage information and exit")
 	globalFlagset.BoolVar(&globalFlags.Help, "h", false, "Print usage information and exit")
-	
 	globalFlagset.BoolVar(&globalFlags.Version, "version", false, "Print the version and exit")
-	
 	globalFlagset.StringVar(&globalFlags.SSHUserName, "ssh-username", "core", "Username to use when connecting to CoreOS instance")
-}
-
-type Command struct {
-	Name        string       // Name of the Command and the string to use to invoke it
-	Summary     string       // One-sentence summary of what the Command does
-	Usage       string       // Usage options/arguments
-	Description string       // Detailed description of command
-	Flags       flag.FlagSet // Set of flags associated with this command
-
-	Run func(args []string) int // Run a command with the given arguments, return exit status
-}
-
-func init() {
+	
 	out = new(tabwriter.Writer)
 	out.Init(os.Stdout, 0, 8, 1, '\t', 0)
-	commands = []*Command{
+	
+	commands = []*Command {
 		cmdHelp,
 		cmdVersion,
 	}
 }
 
-func getAllFlags() (flags []*flag.Flag) {
-	return getFlags(globalFlagset)
-}
-
-func getFlags(flagset *flag.FlagSet) (flags []*flag.Flag) {
-	flags = make([]*flag.Flag, 0)
-	flagset.VisitAll(func(f *flag.Flag) {
-		flags = append(flags, f)
-	})
-	return
-}
-
-func maybeAddNewline(s string) string {
-	if !strings.HasSuffix(s, "\n") {
-		s = s + "\n"
-	}
-	return s
-}
-
-func stderr(format string, args ...interface{}) {
-	fmt.Fprintf(os.Stderr, maybeAddNewline(format), args...)
-}
-
-func stdout(format string, args ...interface{}) {
-	fmt.Fprintf(os.Stdout, maybeAddNewline(format), args...)
-}
-
 func main() {
     globalFlagset.Parse(os.Args[1:])
-
 	args := globalFlagset.Args()
-
 	getFlagsFromEnv(cliName, globalFlagset)
 	
 	if globalFlags.Version {
@@ -145,4 +109,31 @@ func getFlagsFromEnv(prefix string, fs *flag.FlagSet) {
 		}
 
 	})
+}
+
+func getFlags(flagset *flag.FlagSet) (flags []*flag.Flag) {
+	flags = make([]*flag.Flag, 0)
+	flagset.VisitAll(func(f *flag.Flag) {
+		flags = append(flags, f)
+	})
+	return
+}
+
+func getAllFlags() (flags []*flag.Flag) {
+	return getFlags(globalFlagset)
+}
+
+func maybeAddNewline(s string) string {
+	if !strings.HasSuffix(s, "\n") {
+		s = s + "\n"
+	}
+	return s
+}
+
+func stderr(format string, args ...interface{}) {
+	fmt.Fprintf(os.Stderr, maybeAddNewline(format), args...)
+}
+
+func stdout(format string, args ...interface{}) {
+	fmt.Fprintf(os.Stdout, maybeAddNewline(format), args...)
 }

@@ -10,24 +10,22 @@ import (
 )
 
 const (
-	// used to indicate flag usage should not be printed
 	hidden = "hidden"
 )
 
 var (
-	cmdHelp = &Command{
+	cmdHelp = &Command {
 		Name:			"help",
 		Description:	"Show a list of commands or detailed help for one command",
 		Summary:		"Show a list of commands or help for one command",
 		Usage:			"[COMMAND]",
 		Run:			runHelp,
 	}
-
-	globalUsageTemplate  *template.Template
-	commandUsageTemplate *template.Template
-	templFuncs           = template.FuncMap{
+	
+	globalUsageTemplate		*template.Template
+	commandUsageTemplate	*template.Template
+	templFuncs				= template.FuncMap {
 		"descToLines": func(s string) []string {
-			// trim leading/trailing whitespace and split into slice of lines
 			return strings.Split(strings.Trim(s, "\n\t "), "\n")
 		},
 		"printOption": func(name, defvalue, usage string) string {
@@ -115,7 +113,7 @@ func printGlobalUsage() {
 		Version		string
 	}{
 		cliName,
-		cliEnvFlag,
+		strings.ToUpper(cliName),
 		commands,
 		getAllFlags(),
 		cliDescription,
