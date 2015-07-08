@@ -1,14 +1,3 @@
-/* docker run -d --name=ubuntu-go ubuntu /bin/bash -c 'while true; do sleep 1; done'
- * docker exec -it ubuntu-go /bin/bash
- * apt-get update && apt-get install -y golang nano
- * mkdir -p /root/nodectl && cd /root/nodectl && export TERM=xterm
- * rm nodectl.go && nano nodectl.go
- * rm version.go && nano version.go
- * go build .
- * ./nodectl
- * ./nodectl -h
-*/
-
 package main
 
 import (
