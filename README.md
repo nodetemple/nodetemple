@@ -3,18 +3,17 @@
 CoreOS and Kubernetes cluster management tool
 > **Warning!** This software is not production ready - use it at your own risk!
 
-## Getting Started
+## Getting started
 
 ### Building
 
 nodetemple must be built with Go 1.4+ on a Linux machine. Simply run `./build` and then copy the binaries out of bin/ onto each of your machines.
 
-## Project Details
+## Project details
 
 ### Contributing
 
-Got great ideas? Awesome! Contribute!
-Feel free to join us! Open source software rules!
+Got great ideas? Awesome! Contribute! Feel free to join us! Open source software rules!
 
 By contributing to this project you agree to the Developer Certificate of Origin (DCO). This document was created by the Linux Kernel community and is a simple statement that you, as a contributor, have the legal right to make the contribution. See the [DCO](DCO) file for details.
 
