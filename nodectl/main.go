@@ -9,29 +9,28 @@ import (
 )
 
 const (
-	cliName			= "nodectl"
-	cliDescription	= "nodectl is a command-line interface for an orchestration of CoreOS and Kubernetes cluster"
+	cliName        = "nodectl"
+	cliDescription = "nodectl is a command-line interface for an orchestration of CoreOS and Kubernetes cluster"
 )
 
 var (
-	out				*tabwriter.Writer
-	commands		[]*Command
-	globalFlagset	= flag.NewFlagSet("nodectl", flag.ExitOnError)
-	globalFlags		= struct {
-		Help		bool
-		Version		bool
-		
-		SSHUserName	string
+	out           *tabwriter.Writer
+	commands      []*Command
+	globalFlagset = flag.NewFlagSet("nodectl", flag.ExitOnError)
+	globalFlags   = struct {
+		Help        bool
+		Version     bool
+		SSHUserName string
 	}{}
 )
 
 type Command struct {
-	Name		string
-	Description	string
-	Summary		string
-	Usage		string
-	Flags		flag.FlagSet
-	Run			func(args []string) int
+	Name        string
+	Description string
+	Summary     string
+	Usage       string
+	Flags       flag.FlagSet
+	Run         func(args []string) int
 }
 
 func init() {

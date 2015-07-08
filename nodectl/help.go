@@ -15,16 +15,16 @@ const (
 
 var (
 	cmdHelp = &Command {
-		Name:			"help",
-		Description:	"Show a list of commands or detailed help for one command",
-		Summary:		"Show a list of commands or help for one command",
-		Usage:			"[COMMAND]",
-		Run:			runHelp,
+		Name:        "help",
+		Description: "Show a list of commands or detailed help for one command",
+		Summary:     "Show a list of commands or help for one command",
+		Usage:       "[COMMAND]",
+		Run:         runHelp,
 	}
 	
-	globalUsageTemplate		*template.Template
-	commandUsageTemplate	*template.Template
-	templFuncs				= template.FuncMap {
+	globalUsageTemplate  *template.Template
+	commandUsageTemplate *template.Template
+	templFuncs           = template.FuncMap {
 		"descToLines": func(s string) []string {
 			return strings.Split(strings.Trim(s, "\n\t "), "\n")
 		},
@@ -105,12 +105,12 @@ func runHelp(args []string) (exit int) {
 
 func printGlobalUsage() {
 	globalUsageTemplate.Execute(out, struct {
-		Executable	string
-		EnvFlag		string
-		Commands	[]*Command
-		Flags		[]*flag.Flag
-		Description	string
-		Version		string
+		Executable  string
+		EnvFlag     string
+		Commands    []*Command
+		Flags       []*flag.Flag
+		Description string
+		Version     string
 	}{
 		cliName,
 		strings.ToUpper(cliName),
@@ -124,9 +124,9 @@ func printGlobalUsage() {
 
 func printCommandUsage(cmd *Command) {
 	commandUsageTemplate.Execute(out, struct {
-		Executable	string
-		Cmd			*Command
-		CmdFlags	[]*flag.Flag
+		Executable string
+		Cmd        *Command
+		CmdFlags   []*flag.Flag
 	}{
 		cliName,
 		cmd,

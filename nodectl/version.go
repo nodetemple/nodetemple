@@ -6,11 +6,11 @@ import (
 
 var (
 	cmdVersion = &Command {
-		Name:			"version",
-		Description:	"Print the version and exit",
-		Summary:		"Print the version and exit",
-		Usage:			"",
-		Run:			runVersion,
+		Name:        "version",
+		Description: "Print the version and exit",
+		Summary:     "Print the version and exit",
+		Usage:       "",
+		Run:         runVersion,
 	}
 )
 
