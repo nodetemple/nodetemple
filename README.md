@@ -3,15 +3,17 @@
 CoreOS and Kubernetes cluster orchestration tool
 > **Warning!** This software is not production ready - use it at your own risk!
 
-## Before you dive in
+Nodetemple is an open source system for easier orchestration of multiple CoreOS hosts on a cluster, it provides automated and semi-automated mechanisms for deployment, maintenance, and scaling of servers, clusters and cluster-wide services, such as etcd, fleet, flannel, docker/rocket, kubernetes, etc.
 
-Nodetemple is designed to run on [CoreOS](https://coreos.com), basically because of [native systemd support](https://coreos.com/using-coreos/systemd/), [security](https://coreos.com/security/), [awesome Chrome-like automatic updates engine](https://coreos.com/using-coreos/updates/), etc.
+## Getting started
+
+### Before you dive in
+
+Nodetemple is designed to run on [CoreOS](https://coreos.com), basically because of [native systemd support](https://coreos.com/using-coreos/systemd/), [security](https://coreos.com/security/), [automatic updates engine](https://coreos.com/using-coreos/updates/), etc.
 
 Supported IaaS providers:
 - [DigitalOcean](https://www.digitalocean.com/)
 - *Comming soon...* ~~GCE, AWS, Rackspace, Azure, Wmware, Vagrant, bare-metal, etc.~~
-
-## Getting started
 
 ### Building
 
