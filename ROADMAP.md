@@ -8,3 +8,9 @@
 - encrypted and authenticated traffic between servers/services
 - firewall included
 - dockerize and/or rocketize all services (which are possible)
+- private docker registry, highly-available one, with persistent storage, accessible only within cluster, git integration, auto-build and deploy with rolling update for pods, etc.
+- web UI
+- monitor resources, cluster-wide, CLI tool and web UI
+- cluster-wide HA volumes
+- API and/or socket
+- cluster-wide logging
