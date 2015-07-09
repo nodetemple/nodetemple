@@ -5,6 +5,14 @@ CoreOS and Kubernetes cluster orchestration tool
 
 ## Getting started
 
+### Before you dive in
+
+Nodetemple is designed to run on [CoreOS](https://coreos.com), basically because of [native systemd support](https://coreos.com/using-coreos/systemd/), [security](https://coreos.com/security/), [awesome Chrome-like automatic updates engine](https://coreos.com/using-coreos/updates/), etc.
+
+Supported IaaS providers:
+- [DigitalOcean](https://www.digitalocean.com/)
+- *Comming soon...* ~~GCE, AWS, Rackspace, Azure, Wmware, Vagrant, bare-metal, etc.~~
+
 ### Building
 
 Nodetemple must be built with Go 1.4+ on a Linux machine. Simply run `./build` and then copy the binaries out of bin/ onto each of your machines.
