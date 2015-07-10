@@ -9,7 +9,7 @@ rm -f ${GOPATH}/src/${REPO_PATH}
 mkdir -p ${GOPATH}/src/${ORG_PATH}
 ln -s ${PWD} ${GOPATH}/src/${REPO_PATH}
 
-git clone https://github.com/spf13/cobra.git ${GOPATH}/src/github/spf13/cobra
+git clone https://github.com/spf13/cobra.git ${GOPATH}/src/github.com/spf13/cobra
 
 eval $(go env)
 
