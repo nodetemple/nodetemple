@@ -17,136 +17,104 @@ limitations under the License.
 package main
 
 import (
-	"flag"
 	"fmt"
 	"strings"
 	"text/template"
-	
+
 	"github.com/nodetemple/nodetemple/version"
 )
 
-const (
-	hidden = "hidden"
-)
-
 var (
-	cmdHelp = &Command {
-		Name:        "help",
-		Description: "Show a list of commands or detailed help for one command",
-		Summary:     "Show a list of commands or help for one command",
-		Usage:       "[COMMAND]",
-		Run:         runHelp,
-	}
-	
-	globalUsageTemplate  *template.Template
 	commandUsageTemplate *template.Template
-	templFuncs           = template.FuncMap {
+	templFuncs           = template.FuncMap{
 		"descToLines": func(s string) []string {
 			return strings.Split(strings.Trim(s, "\n\t "), "\n")
 		},
-		"printOption": func(name, defvalue, usage string) string {
-			if usage == hidden {
-				return ""
+		"cmdName": func(cmd *cobra.Command, startCmd *cobra.Command) string {
+			parts := []string{cmd.Name()}
+			for cmd.HasParent() && cmd.Parent().Name() != startCmd.Name() {
+				cmd = cmd.Parent()
+				parts = append([]string{cmd.Name()}, parts...)
 			}
-			prefix := "--"
-			if len(name) == 1 {
-				prefix = "-"
-			}
-			return fmt.Sprintf("\n\t%s%s=%s\t%s", prefix, name, defvalue, usage)
+			return strings.Join(parts, " ")
 		},
 	}
 )
 
 func init() {
-	globalUsageTemplate = template.Must(template.New("global_usage").Funcs(templFuncs).Parse(`
+	commandUsage := `
+{{ $cmd := .Cmd }}\
+{{ $cmdname := cmdName .Cmd .Cmd.Root }}\
 NAME:
-{{printf "\t%s - %s" .Executable .Description}}
+{{ if not .Cmd.HasParent }}\
+{{printf "\t%s - %s" .Cmd.Name .Cmd.Short}}
+{{else}}\
+{{printf "\t%s - %s" $cmdname .Cmd.Short}}
+{{end}}\
 
-USAGE: 
-{{printf "\t%s" .Executable}} [global options] <command> [command options] [arguments...]
+USAGE:
+{{printf "\t%s" .Cmd.UseLine}}
+{{ if not .Cmd.HasParent }}\
 
 VERSION:
 {{printf "\t%s" .Version}}
+{{end}}\
+{{if .Cmd.HasSubCommands}}\
 
-COMMANDS:{{range .Commands}}
-{{printf "\t%s\t%s" .Name .Summary}}{{end}}
-
-GLOBAL OPTIONS:{{range .Flags}}{{printOption .Name .DefValue .Usage}}{{end}}
-
-Global options can also be configured via upper-case environment variables prefixed with "{{.EnvFlag}}_"
-For example, "some-flag" => "{{.EnvFlag}}_SOME_FLAG"
-
-Run "{{.Executable}} help <command>" for more details on a specific command.
-`[1:]))
-	commandUsageTemplate = template.Must(template.New("command_usage").Funcs(templFuncs).Parse(`
-NAME:
-{{printf "\t%s - %s" .Cmd.Name .Cmd.Summary}}
-
-USAGE:
-{{printf "\t%s %s %s" .Executable .Cmd.Name .Cmd.Usage}}
+COMMANDS:
+{{range .SubCommands}}\
+{{ $cmdname := cmdName . $cmd }}\
+{{ if .Runnable }}\
+{{printf "\t%s\t%s" $cmdname .Short}}
+{{end}}\
+{{end}}\
+{{end}}\
+{{ if .Cmd.Long }}\
 
 DESCRIPTION:
-{{range $line := descToLines .Cmd.Description}}{{printf "\t%s" $line}}
+{{range $line := descToLines .Cmd.Long}}{{printf "\t%s" $line}}
+{{end}}\
+{{end}}\
+{{if .Cmd.HasLocalFlags}}\
+
+OPTIONS:
+{{.Cmd.LocalFlags.FlagUsages}}\
+{{end}}\
+{{if .Cmd.HasInheritedFlags}}\
+
+GLOBAL OPTIONS:
+{{.Cmd.InheritedFlags.FlagUsages}}
+
+Global options can also be configured via upper-case environment variables prefixed with "{{.EnvFlag}}_".
+For example: "--some-flag" => "{{.EnvFlag}}_SOME_FLAG".\
 {{end}}
-{{if .CmdFlags}}OPTIONS:{{range .CmdFlags}}
-{{printOption .Name .DefValue .Usage}}{{end}}
+`[1:]
 
-{{end}}For help on global options run "{{.Executable}} help"
-`[1:]))
+	commandUsageTemplate = template.Must(template.New("command_usage").Funcs(templFuncs).Parse(strings.Replace(commandUsage, "\\\n", "", -1)))
 }
 
-func runHelp(args []string) (exit int) {
-	if len(args) < 1 {
-		printGlobalUsage()
-		return
+func getSubCommands(cmd *cobra.Command) []*cobra.Command {
+	subCommands := []*cobra.Command{}
+	for _, subCmd := range cmd.Commands() {
+		subCommands = append(subCommands, subCmd)
+		subCommands = append(subCommands, getSubCommands(subCmd)...)
 	}
-
-	var cmd *Command
-
-	for _, c := range commands {
-		if c.Name == args[0] {
-			cmd = c
-			break
-		}
-	}
-
-	if cmd == nil {
-		stderr("Unrecognized command: %s", args[0])
-		return 1
-	}
-
-	printCommandUsage(cmd)
-	return
+	return subCommands
 }
 
-func printGlobalUsage() {
-	globalUsageTemplate.Execute(out, struct {
-		Executable  string
+func usageFunc(cmd *cobra.Command) error {
+	subCommands := getSubCommands(cmd)
+	commandUsageTemplate.Execute(tabOut, struct {
+		Cmd         *cobra.Command
+		SubCommands []*cobra.Command
 		EnvFlag     string
-		Commands    []*Command
-		Flags       []*flag.Flag
-		Description string
 		Version     string
 	}{
-		cliName,
+		cmd,
+		subCommands,
 		strings.ToUpper(cliName),
-		commands,
-		getAllFlags(),
-		cliDescription,
 		version.Version,
 	})
-	out.Flush()
-}
-
-func printCommandUsage(cmd *Command) {
-	commandUsageTemplate.Execute(out, struct {
-		Executable string
-		Cmd        *Command
-		CmdFlags   []*flag.Flag
-	}{
-		cliName,
-		cmd,
-		getFlags(&cmd.Flags),
-	})
-	out.Flush()
+	tabOut.Flush()
+	return nil
 }

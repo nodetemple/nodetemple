@@ -14,26 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package main
+package common
 
-import (
-	"github.com/nodetemple/nodetemple/version"
+const (
+	DefaultProvider = "do"
 )
-
-var (
-	cmdVersion = &cobra.Command{
-		Use:   "version",
-		Short: "Print version and exit",
-		Long:  "Print version and exit",
-		Run:   runWrapper(runVersion),
-	}
-)
-
-func init() {
-	cmdNodectl.AddCommand(cmdVersion)
-}
-
-func runVersion(cmd *cobra.Command, args []string) (exit int) {
-	stdout("%s version %s", cliName, version.Version)
-	return
-}
