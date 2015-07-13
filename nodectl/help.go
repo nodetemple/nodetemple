@@ -21,7 +21,6 @@ import (
 	"text/template"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
 	"github.com/nodetemple/nodetemple/version"
 )
 
@@ -85,11 +84,16 @@ OPTIONS:
 
 GLOBAL OPTIONS:
 {{.Cmd.InheritedFlags.FlagUsages}}
-
 Global options can also be configured via upper-case environment variables prefixed with "{{.EnvFlag}}_".
-For example: "--some-flag" => "{{.EnvFlag}}_SOME_FLAG".\
-{{end}}
-`[1:]
+For example: "--some-flag" => "{{.EnvFlag}}_SOME_FLAG".
+{{end}}\
+{{ if .Cmd.HasSubCommands }}\
+
+Run "{{.Cmd.Name}} help [command]" for more details on a specific command
+{{else}}\
+
+For help on global options run "{{.Cmd.Name}} help"
+{{end}}`[1:]
 
 	commandUsageTemplate = template.Must(template.New("command_usage").Funcs(templFuncs).Parse(strings.Replace(commandUsage, "\\\n", "", -1)))
 }
@@ -107,13 +111,11 @@ func usageFunc(cmd *cobra.Command) error {
 	subCommands := getSubCommands(cmd)
 	commandUsageTemplate.Execute(tabOut, struct {
 		Cmd         *cobra.Command
-		CmdFlags    *pflag.FlagSet
 		SubCommands []*cobra.Command
 		EnvFlag     string
 		Version     string
 	}{
 		cmd,
-		cmd.Flags(),
 		subCommands,
 		strings.ToUpper(cliName),
 		version.Version,
