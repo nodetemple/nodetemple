@@ -77,23 +77,25 @@ DESCRIPTION:
 {{end}}\
 {{if .Cmd.HasLocalFlags}}\
 
-OPTIONS:
+{{ if not .Cmd.HasParent }}GLOBAL {{end}}FLAGS:
 {{.Cmd.LocalFlags.FlagUsages}}\
+{{ if not .Cmd.HasParent }}
+Global flags can also be configured via upper-case environment variables prefixed with "{{.EnvFlag}}_"
+For example: "--some-flag" => "{{.EnvFlag}}_SOME_FLAG"
+{{end}}\
 {{end}}\
 {{if .Cmd.HasInheritedFlags}}\
 
-GLOBAL OPTIONS:
+GLOBAL FLAGS:
 {{.Cmd.InheritedFlags.FlagUsages}}
-Global options can also be configured via upper-case environment variables prefixed with "{{.EnvFlag}}_"
+Global flags can also be configured via upper-case environment variables prefixed with "{{.EnvFlag}}_"
 For example: "--some-flag" => "{{.EnvFlag}}_SOME_FLAG"
 {{end}}\
-{{ if .Cmd.HasSubCommands }}\
-
-Run "{{.Executable}} help [command]" for more details on a specific command
-{{else}}\
-
-For help on global options run "{{.Executable}} help"
-{{end}}`[1:]
+{{ if .Cmd.HasSubCommands }}
+Run "{{.Cmd.CommandPath}} help [command]" for more information about a specific command
+{{end}}\
+Run "{{.Executable}} help" for more information about common usage
+`[1:]
 
 	commandUsageTemplate = template.Must(template.New("command_usage").Funcs(templFuncs).Parse(strings.Replace(commandUsage, "\\\n", "", -1)))
 }
