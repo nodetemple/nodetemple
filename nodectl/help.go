@@ -21,6 +21,7 @@ import (
 	"text/template"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 	"github.com/nodetemple/nodetemple/version"
 )
 
@@ -106,11 +107,13 @@ func usageFunc(cmd *cobra.Command) error {
 	subCommands := getSubCommands(cmd)
 	commandUsageTemplate.Execute(tabOut, struct {
 		Cmd         *cobra.Command
+		CmdFlags    *pflag.FlagSet
 		SubCommands []*cobra.Command
 		EnvFlag     string
 		Version     string
 	}{
 		cmd,
+		cmd.Flags()
 		subCommands,
 		strings.ToUpper(cliName),
 		version.Version,
