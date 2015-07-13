@@ -49,8 +49,8 @@ var (
 )
 
 func init() {
-	cmdNodectl.PersistentFlags().BoolVar(&globalFlags.Debug, "debug", envBool("debug", false), "Print out more debug information to stderr")
-	cmdNodectl.PersistentFlags().StringVar(&globalFlags.Provider, "provider", envString("provider", common.DefaultProvider), "Provider to use when managing cluster")
+	cmdNodectl.PersistentFlags().BoolVarP(&globalFlags.Debug, "debug", "d", envBool("debug", false), "Print out more debug information to stderr")
+	cmdNodectl.PersistentFlags().StringVarP(&globalFlags.Provider, "provider", "p", envString("provider", common.DefaultProvider), "Provider to use when managing cluster")
 
 	tabOut = new(tabwriter.Writer)
 	tabOut.Init(os.Stdout, 0, 8, 1, '\t', 0)
