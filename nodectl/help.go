@@ -20,6 +20,7 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/spf13/cobra"
 	"github.com/nodetemple/nodetemple/version"
 )
 
