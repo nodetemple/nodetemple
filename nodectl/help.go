@@ -113,7 +113,7 @@ func usageFunc(cmd *cobra.Command) error {
 		Version     string
 	}{
 		cmd,
-		cmd.Flags()
+		cmd.Flags(),
 		subCommands,
 		strings.ToUpper(cliName),
 		version.Version,
