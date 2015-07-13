@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"strings"
 	"os"
+	"strconv"
 	"text/tabwriter"
 
 	"github.com/spf13/cobra"
@@ -32,7 +33,7 @@ const (
 )
 
 var (
-	out           *tabwriter.Writer
+	tabOut        *tabwriter.Writer
 	globalFlags   = struct {
 		Debug       bool
 		Help        bool
@@ -58,9 +59,6 @@ func init() {
 }
 
 func main() {
-	globalFlagset.Parse(os.Args[1:])
-	getFlagsFromEnv(cliName, globalFlagset)
-
 	cmdNodectl.SetUsageFunc(usageFunc)
 
 	cmdNodectl.SetHelpTemplate(`{{.UsageString}}`)
