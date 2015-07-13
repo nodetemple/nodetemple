@@ -93,8 +93,9 @@ For example: "--some-flag" => "{{.EnvFlag}}_SOME_FLAG"
 {{end}}\
 {{ if .Cmd.HasSubCommands }}
 Run "{{.Cmd.CommandPath}} help [command]" for more information about a specific command
-{{end}}\
-Run "{{.Executable}} help" for more information about common usage
+{{else}}
+Run "{{.Executable}} help" for more information about a common usage
+{{end}}
 `[1:]
 
 	commandUsageTemplate = template.Must(template.New("command_usage").Funcs(templFuncs).Parse(strings.Replace(commandUsage, "\\\n", "", -1)))
