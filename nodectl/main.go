@@ -99,7 +99,7 @@ func envBool(key string, def bool) bool {
 	if env := os.Getenv(envKey); env != "" {
 		val, err := strconv.ParseBool(env)
 		if err != nil {
-			stderr("invalid environment variable %v value \"%v\" for --%v %v", envKey, env, key, err)
+			stderr("invalid environment variable %v value \"%v\" for --%v: %v", envKey, env, key, err)
 			return def
 		}
 		return val
