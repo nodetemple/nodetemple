@@ -69,7 +69,7 @@ func main() {
 }
 
 func stderr(format string, a ...interface{}) {
-	out := fmt.Sprintf(format, a...)
+	out := "Error:" + fmt.Sprintf(format, a...)
 	fmt.Fprintln(os.Stderr, strings.TrimSuffix(out, "\n"))
 }
 
