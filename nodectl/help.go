@@ -29,7 +29,7 @@ var (
 		Use:   "help [command]",
 		Short: "Help about any command",
 		Long:  "Help provides help for any command in the application.\nSimply type " + cliName + " help [command] for full details",
-		Run:   runWrapper(cobra.HelpFunc()),
+		Run:   runWrapper(cmdNodectl.HelpFunc()),
 	}
 
 	commandUsageTemplate *template.Template
