@@ -118,7 +118,7 @@ func getSubCommands(cmd *cobra.Command) []*cobra.Command {
 
 func usageFunc(cmd *cobra.Command) error {
 	subCommands := getSubCommands(cmd)
-	commandUsageTemplate.Execute(tabOut, struct {
+	err := commandUsageTemplate.Execute(tabOut, struct {
 		Executable  string
 		Cmd         *cobra.Command
 		SubCommands []*cobra.Command
@@ -132,5 +132,5 @@ func usageFunc(cmd *cobra.Command) error {
 		version.Version,
 	})
 	tabOut.Flush()
-	return nil
+	return err
 }
