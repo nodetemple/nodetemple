@@ -60,7 +60,10 @@ func init() {
 
 func main() {
 	cmdNodectl.SetUsageFunc(usageFunc)
+	cmdNodectl.SetUsageTemplate(`{{.UsageString}}`)
 
+	cmdNodectl.SetHelpCommand(cmdHelp)
+	cmdNodectl.SetHelpFunc(usageFunc)
 	cmdNodectl.SetHelpTemplate(`{{.UsageString}}`)
 
 	cmdNodectl.Execute()
