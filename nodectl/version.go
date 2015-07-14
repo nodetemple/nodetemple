@@ -35,6 +35,6 @@ func init() {
 }
 
 func runVersion(cmd *cobra.Command, args []string) (exit int) {
-	stdout("%s version %s", cliName, version.Version)
+	stdout("%v version %v", cliName, version.Version)
 	return
 }
