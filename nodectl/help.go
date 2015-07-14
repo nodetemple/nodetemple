@@ -31,8 +31,8 @@ var (
 		Short: "Print usage information",
 		Long:  "Print usage information for any command",
 		Run:   cmdNodectl.HelpFunc(),
-		PersistentPreRun:  func(cmd *Command, args []string) {},
-		PersistentPostRun: func(cmd *Command, args []string) {},
+		PersistentPreRun:  func(cmd *cobra.Command, args []string) {},
+		PersistentPostRun: func(cmd *cobra.Command, args []string) {},
 	}
 
 	commandUsageTemplate *template.Template
