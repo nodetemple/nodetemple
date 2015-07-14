@@ -49,8 +49,6 @@ var (
 )
 
 func init() {
-	cmdNodectl.AddCommand(cmdHelp)
-
 	commandUsage := `
 {{ $cmd := .Cmd }}\
 {{ $cmdname := cmdName .Cmd .Cmd.Root }}\
