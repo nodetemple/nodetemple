@@ -49,6 +49,7 @@ var (
 )
 
 func init() {
+	cmdNodectl.PersistentFlags().BoolVarP(&cmdNodectl.helpFlagVal, "help", "h", false, "Help for "+cmdNodectl.Name())
 	cmdNodectl.PersistentFlags().BoolVar(&globalFlags.Debug, "debug", envBool("debug", false), "Print out more debug information")
 	cmdNodectl.PersistentFlags().StringVarP(&globalFlags.Provider, "provider", "p", envString("provider", common.DefaultProvider), "Provider to use when managing a cluster")
 
