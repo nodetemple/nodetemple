@@ -29,7 +29,7 @@ var (
 	cmdHelp = &cobra.Command{
 		Use:   "help [command]",
 		Short: "Print usage information",
-		Long:  "Print usage information for any command",
+		Long:  "Print usage information about any command",
 		Run:   cmdNodectl.HelpFunc(),
 		PersistentPreRun:  func(cmd *cobra.Command, args []string) {},
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {},
