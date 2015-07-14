@@ -90,22 +90,22 @@ DESCRIPTION:
 {{ if not .Cmd.HasParent }}GLOBAL {{end}}FLAGS:
 {{.Cmd.LocalFlags.FlagUsages}}\
 {{ if not .Cmd.HasParent }}
-Global flags can also be configured via upper-case environment variables prefixed with '{{.EnvFlag}}_'
-For example: '--some-flag' => '{{.EnvFlag}}_SOME_FLAG'
+Global flags can also be configured via upper-case environment variables prefixed with "{{.EnvFlag}}_"
+For example: "--some-flag" => "{{.EnvFlag}}_SOME_FLAG"
 {{end}}\
 {{end}}\
 {{if .Cmd.HasInheritedFlags}}\
 
 GLOBAL FLAGS:
 {{.Cmd.InheritedFlags.FlagUsages}}
-Global flags can also be configured via upper-case environment variables prefixed with '{{.EnvFlag}}_'
-For example: '--some-flag' => '{{.EnvFlag}}_SOME_FLAG'
+Global flags can also be configured via upper-case environment variables prefixed with "{{.EnvFlag}}_"
+For example: "--some-flag" => "{{.EnvFlag}}_SOME_FLAG"
 {{end}}\
 {{ if .Cmd.HasSubCommands }}
-Run '{{.Cmd.CommandPath}} help [command]' for more information about a specific command usage
+Run "{{.Cmd.CommandPath}} help [command]" for more information about a specific command usage
 {{end}}\
 {{ if .Cmd.HasParent }}
-Run '{{.Executable}} help' for more information about a general usage
+Run "{{.Executable}} help" for more information about a general usage
 {{end}}`[1:]
 
 	commandUsageTemplate = template.Must(template.New("command_usage").Funcs(templFuncs).Parse(strings.Replace(commandUsage, "\\\n", "", -1)))
