@@ -23,7 +23,7 @@ import (
 	"strconv"
 	"text/tabwriter"
 
-	"github.com/nodetemple/cobra"
+	"github.com/spf13/cobra"
 	"github.com/nodetemple/nodetemple/common"
 )
 

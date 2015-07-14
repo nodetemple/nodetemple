@@ -20,8 +20,8 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"github.com/nodetemple/cobra"
 	"github.com/nodetemple/nodetemple/version"
 )
 
