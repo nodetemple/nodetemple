@@ -21,15 +21,18 @@ import (
 	"text/template"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 	"github.com/nodetemple/nodetemple/version"
 )
 
 var (
 	cmdHelp = &cobra.Command{
 		Use:   "help [command]",
-		Short: "Help about any command",
-		Long:  "Help provides help for any command in the application.\nSimply type " + cliName + " help [command] for full details",
+		Short: "Print usage information",
+		Long:  "Print usage information for any command",
 		Run:   cmdNodectl.HelpFunc(),
+		PersistentPreRun:  func(cmd *Command, args []string) {},
+		PersistentPostRun: func(cmd *Command, args []string) {},
 	}
 
 	commandUsageTemplate *template.Template
@@ -99,9 +102,10 @@ Global flags can also be configured via upper-case environment variables prefixe
 For example: "--some-flag" => "{{.EnvFlag}}_SOME_FLAG"
 {{end}}\
 {{ if .Cmd.HasSubCommands }}
-Run "{{.Cmd.CommandPath}} help [command]" for more information about a specific command
-{{else}}
-Run "{{.Executable}} help" for more information about a common usage
+Run "{{.Cmd.CommandPath}} help [command]" for more information about a specific command usage
+{{end}}\
+{{ if .Cmd.HasParent }}
+Run "{{.Executable}} help" for more information about a general usage
 {{end}}`[1:]
 
 	commandUsageTemplate = template.Must(template.New("command_usage").Funcs(templFuncs).Parse(strings.Replace(commandUsage, "\\\n", "", -1)))
@@ -121,12 +125,14 @@ func usageFunc(cmd *cobra.Command) error {
 	err := commandUsageTemplate.Execute(tabOut, struct {
 		Executable  string
 		Cmd         *cobra.Command
+		CmdFlags    *pflag.FlagSet
 		SubCommands []*cobra.Command
 		EnvFlag     string
 		Version     string
 	}{
 		cliName,
 		cmd,
+		cmd.Flags(),
 		subCommands,
 		strings.ToUpper(cliName),
 		version.Version,

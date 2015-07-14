@@ -24,8 +24,8 @@ import (
 var (
 	cmdVersion = &cobra.Command{
 		Use:   "version",
-		Short: "Print version and exit",
-		Long:  "Print version and exit",
+		Short: "Print version information",
+		Long:  "Print version information",
 		Run:   runWrapper(runVersion),
 	}
 )
