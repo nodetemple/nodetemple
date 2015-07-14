@@ -23,7 +23,7 @@ import (
 	"strconv"
 	"text/tabwriter"
 
-	"github.com/spf13/cobra"
+	"github.com/nodetemple/cobra"
 	"github.com/nodetemple/nodetemple/common"
 )
 
@@ -35,7 +35,6 @@ const (
 var (
 	tabOut        *tabwriter.Writer
 	globalFlags   = struct {
-		helpFlagVal bool
 		Debug       bool
 		Provider    string
 	}{}
@@ -49,7 +48,6 @@ var (
 )
 
 func init() {
-	cmdNodectl.PersistentFlags().BoolVarP(&globalFlags.helpFlagVal, "help", "h", false, "Help for "+cmdNodectl.Name())
 	cmdNodectl.PersistentFlags().BoolVar(&globalFlags.Debug, "debug", envBool("debug", false), "Print out more debug information")
 	cmdNodectl.PersistentFlags().StringVarP(&globalFlags.Provider, "provider", "p", envString("provider", common.DefaultProvider), "Provider to use when managing a cluster")
 

@@ -17,7 +17,7 @@ limitations under the License.
 package main
 
 import (
-	"github.com/spf13/cobra"
+	"github.com/nodetemple/cobra"
 	"github.com/nodetemple/nodetemple/version"
 )
 
