@@ -35,8 +35,8 @@ const (
 var (
 	tabOut        *tabwriter.Writer
 	globalFlags   = struct {
+		helpFlagVal bool
 		Debug       bool
-		Help        bool
 		Provider    string
 	}{}
 
