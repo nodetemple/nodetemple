@@ -24,10 +24,6 @@ func DemoCommand() cli.Command{
 	return cli.Command{
 		Name:  "demo",
 		Usage: "a simple `hello world` demo",
-		Flags: []cli.Flag{
-			//cli.IntFlag{Name: "ttl", Value: 0, Usage: "key time-to-live"},
-			cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
-		},
 		/*Action: func(c *cli.Context) {
 			println("Hello: ", c.Args().First())
 		},*/
@@ -35,6 +31,10 @@ func DemoCommand() cli.Command{
 			{
 				Name:  "add",
 				Usage: "add a new template",
+				Flags: []cli.Flag{
+					//cli.IntFlag{Name: "ttl", Value: 0, Usage: "key time-to-live"},
+					cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
+				},
 				Action: func(c *cli.Context) {
 					println("new task template: ", c.Args().First(), c.GlobalString("provider"), c.String("demo-flag"))
 				},
@@ -42,6 +42,10 @@ func DemoCommand() cli.Command{
 			{
 				Name:  "remove",
 				Usage: "remove an existing template",
+				Flags: []cli.Flag{
+					//cli.IntFlag{Name: "ttl", Value: 0, Usage: "key time-to-live"},
+					cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
+				},
 				Action: func(c *cli.Context) {
 					println("removed task template: ", c.Args().First(), c.GlobalString("provider"), c.String("demo-flag"))
 				},
