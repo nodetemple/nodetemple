@@ -20,6 +20,6 @@ import (
 	"strings"
 )
 
-func EnvVarConv(app, val) string {
+func EnvVarConv(app string, val string) string {
 	return strings.ToUpper(app + "_" + strings.Replace(val, "-", "_", -1))
 }
