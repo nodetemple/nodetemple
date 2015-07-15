@@ -17,106 +17,26 @@ limitations under the License.
 package main
 
 import (
-	"fmt"
-	"strings"
 	"os"
-	"strconv"
-	"text/tabwriter"
 
-	"github.com/nodetemple/cobra"
+	"github.com/codegangsta/cli"
 	"github.com/nodetemple/nodetemple/common"
+	"github.com/nodetemple/nodetemple/version"
+	"github.com/nodetemple/nodetemple/nodectl/command"
 )
-
-const (
-	cliName        = "nodectl"
-	cliDescription = "nodectl is a command-line interface for an orchestration of CoreOS and Kubernetes cluster"
-)
-
-var (
-	tabOut        *tabwriter.Writer
-	globalFlags   = struct {
-		Debug       bool
-		Provider    string
-	}{}
-
-	cmdExitCode int
-
-	cmdNodectl = &cobra.Command{
-		Use:   fmt.Sprintf("%s [command]", cliName),
-		Short: cliDescription,
-	}
-)
-
-func init() {
-	cmdNodectl.PersistentFlags().BoolVar(&globalFlags.Debug, "debug", envBool("debug", false), "Print out more debug information")
-	cmdNodectl.PersistentFlags().StringVarP(&globalFlags.Provider, "provider", "p", envString("provider", common.DefaultProvider), "Provider to use when managing a cluster")
-
-	tabOut = new(tabwriter.Writer)
-	tabOut.Init(os.Stdout, 0, 8, 1, '\t', 0)
-
-	cobra.EnablePrefixMatching = true
-}
 
 func main() {
-	cmdNodectl.SetUsageFunc(usageFunc)
-	cmdNodectl.SetUsageTemplate(`{{.UsageString}}`)
-
-	cmdNodectl.SetHelpCommand(cmdHelp)
-	cmdNodectl.SetHelpTemplate(`{{.UsageString}}`)
-
-	cmdNodectl.Execute()
-	os.Exit(cmdExitCode)
-}
-
-func stderr(format string, a ...interface{}) {
-	out := "Error: " + fmt.Sprintf(format, a...)
-	fmt.Fprintln(os.Stderr, strings.TrimSuffix(out, "\n"))
-}
-
-func stdout(format string, a ...interface{}) {
-	out := fmt.Sprintf(format, a...)
-	fmt.Fprintln(os.Stdout, strings.TrimSuffix(out, "\n"))
-}
-
-func runWrapper(cf func(cmd *cobra.Command, args []string) (exit int)) func(cmd *cobra.Command, args []string) {
-	return func(cmd *cobra.Command, args []string) {
-		cmdExitCode = cf(cmd, args)
+	app := cli.NewApp()
+	app.Name = "nodectl"
+	app.Version = version.Version
+	app.Usage = "CLI for an orchestration of CoreOS and Kubernetes cluster"
+	app.Flags = []cli.Flag{
+		cli.BoolFlag{Name: "debug", Usage: "print out more debug information to stderr"},
+		cli.StringFlag{Name: "provider, p", Value: common.DefaultProvider, Usage: "provider to use when managing a cluster", EnvVar: "NODECTL_PROVIDER",},
 	}
-}
-
-func envString(key, def string) string {
-	envKey := strings.ToUpper(cliName + "_" + strings.Replace(key, "-", "_", -1))
-
-	if env := os.Getenv(envKey); env != "" {
-		return env
+	app.Commands = []cli.Command{
+		command.demoCommand(),
 	}
-	return def
-}
 
-func envBool(key string, def bool) bool {
-	envKey := strings.ToUpper(cliName + "_" + strings.Replace(key, "-", "_", -1))
-
-	if env := os.Getenv(envKey); env != "" {
-		val, err := strconv.ParseBool(env)
-		if err != nil {
-			stderr(`invalid environment variable %v value "%v" for --%v: %v`, envKey, env, key, err)
-			return def
-		}
-		return val
-	}
-	return def
-}
-
-func envInt(key string, def int) int {
-	envKey := strings.ToUpper(cliName + "_" + strings.Replace(key, "-", "_", -1))
-
-	if env := os.Getenv(envKey); env != "" {
-		val, err := strconv.Atoi(env)
-		if err != nil {
-			stderr(`invalid environment variable %v value "%v" for --%v: %v`, envKey, env, key, err)
-			return def
-		}
-		return val
-	}
-	return def
+	app.Run(os.Args)
 }
