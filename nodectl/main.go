@@ -30,8 +30,6 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "nodectl"
 	app.Usage = "CLI for an orchestration of CoreOS and Kubernetes cluster"
-	app.Authors = []cli.Author{cli.Author{Name: "Nodetemple", Email: "hostmaster@nodetemple.com"}}
-	app.Copyright = "Copyright 2015"
 	app.Version = version.Version
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{Name: "debug", Usage: "print out more debug information to stderr"},
