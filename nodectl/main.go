@@ -33,8 +33,8 @@ func main() {
 	app.Version = version.Version
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{Name: "debug", Usage: "print out more debug information to stderr"},
-		cli.StringFlag{Name: "provider, p", Value: common.DefaultProvider, Usage: "provider to use when managing a cluster", EnvVar: "NODECTL_PROVIDER",},
-		cli.StringFlag{Name: "provider-key, k", Value: "", Usage: "provider's API key to use when managing a cluster", EnvVar: "NODECTL_PROVIDER_KEY",},
+		cli.StringFlag{Name: "provider, p", Value: common.DefaultProvider, Usage: "provider to use when managing a cluster", EnvVar: app.Name+"_PROVIDER",},
+		cli.StringFlag{Name: "provider-key, k", Value: "", Usage: "provider's API key to use when managing a cluster", EnvVar: app.Name+"_PROVIDER_KEY",},
 	}
 	app.Commands = []cli.Command{
 		command.DemoCmd(),
