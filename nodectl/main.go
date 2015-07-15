@@ -34,12 +34,13 @@ func main() {
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{Name: "debug", Usage: "print out more debug information to stderr"},
 		cli.StringFlag{Name: "provider, p", Value: common.DefaultProvider, Usage: "provider to use when managing a cluster", EnvVar: "NODECTL_PROVIDER",},
+		cli.StringFlag{Name: "provider-key, k", Value: "", Usage: "provider's API key to use when managing a cluster", EnvVar: "NODECTL_PROVIDER_KEY",},
 	}
 	app.Commands = []cli.Command{
 		command.DemoCmd(),
 	}
 	app.CommandNotFound = func(c *cli.Context, command string) {
-		util.Err("command '%v' not found\nRun 'nodectl help [command]' for more information about a specific command usage", command)
+		util.Err("command '%v' not found\nRun '"+ctx.App.Name+" help [command]' for more information about a specific command usage", command)
 	}
 
 	app.Run(os.Args)
