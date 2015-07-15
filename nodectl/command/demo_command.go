@@ -36,7 +36,7 @@ func DemoCommand() cli.Command{
 					cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
 				},
 				Action: func(c *cli.Context) {
-					println("new task template: ", c.Args().First(), c.GlobalString("provider"), c.String("demo-flag"))
+					println("new task template:", c.Args().First(), c.GlobalString("provider"), c.String("demo-flag"))
 				},
 			},
 			{
@@ -47,7 +47,7 @@ func DemoCommand() cli.Command{
 					cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
 				},
 				Action: func(c *cli.Context) {
-					println("removed task template: ", c.Args().First(), c.GlobalString("provider"), c.String("demo-flag"))
+					println("removed task template:", c.Args().First(), c.GlobalString("provider"), c.String("demo-flag"))
 				},
 			},
 		},
