@@ -17,8 +17,6 @@ limitations under the License.
 package command
 
 import (
-	"os"
-
 	"github.com/codegangsta/cli"
 )
 
