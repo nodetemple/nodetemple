@@ -17,8 +17,6 @@ limitations under the License.
 package command
 
 import (
-	"fmt"
-
 	"github.com/codegangsta/cli"
 	"github.com/nodetemple/nodetemple/nodectl/util"
 )
@@ -29,7 +27,7 @@ func DemoCmd() cli.Command{
 		Usage: "a simple `hello world` demo",
 		Flags: []cli.Flag{
 			cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
-			cli.BoolFlag{Name: "demo-bool", Value: true, Usage: "demo bool usage"},
+			cli.BoolFlag{Name: "demo-bool", Usage: "demo bool usage"},
 		},
 		Action: func(c *cli.Context) {
 			if c.String("demo-flag") == "" {
