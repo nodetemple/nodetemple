@@ -20,7 +20,7 @@ import (
 	"github.com/codegangsta/cli"
 )
 
-func demoCommand() cli.Command{
+func DemoCommand() cli.Command{
 	return cli.Command{
 		Name:  "demo",
 		Usage: "a simple `hello world` demo",

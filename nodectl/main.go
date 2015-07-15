@@ -35,7 +35,7 @@ func main() {
 		cli.StringFlag{Name: "provider, p", Value: common.DefaultProvider, Usage: "provider to use when managing a cluster", EnvVar: "NODECTL_PROVIDER",},
 	}
 	app.Commands = []cli.Command{
-		command.demoCommand(),
+		command.DemoCommand(),
 	}
 
 	app.Run(os.Args)
