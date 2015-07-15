@@ -25,7 +25,7 @@ func DemoCmd() cli.Command{
 	return cli.Command{
 		Name:  "demo",
 		Usage: "a simple `hello world` demo",
-		Description: "a simple `hello world` demo\n\twith output of flags, args, etc.",
+		Description: "a simple `hello world` demo\n   with output of flags, args, etc.",
 		Flags: []cli.Flag{
 			cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
 			cli.BoolFlag{Name: "demo-bool", Usage: "demo bool usage"},
