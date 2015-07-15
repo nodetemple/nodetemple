@@ -24,32 +24,12 @@ func DemoCommand() cli.Command{
 	return cli.Command{
 		Name:  "demo",
 		Usage: "a simple `hello world` demo",
-		/*Action: func(c *cli.Context) {
-			println("Hello: ", c.Args().First())
-		},*/
-		Subcommands: []cli.Command{
-			{
-				Name:  "add",
-				Usage: "add a new template",
-				Flags: []cli.Flag{
-					//cli.IntFlag{Name: "ttl", Value: 0, Usage: "key time-to-live"},
-					cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
-				},
-				Action: func(c *cli.Context) {
-					println("new task template:", c.Args().First(), c.GlobalString("provider"), c.String("demo-flag"))
-				},
-			},
-			{
-				Name:  "remove",
-				Usage: "remove an existing template",
-				Flags: []cli.Flag{
-					//cli.IntFlag{Name: "ttl", Value: 0, Usage: "key time-to-live"},
-					cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
-				},
-				Action: func(c *cli.Context) {
-					println("removed task template:", c.Args().First(), c.GlobalString("provider"), c.String("demo-flag"))
-				},
-			},
+		Flags: []cli.Flag{
+			cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
+			cli.BoolFlag{Name: "demo-bool", Value: true, Usage: "demo bool usage"},
+		},
+		Action: func(c *cli.Context) {
+			println("result:", c.Args().First(), c.GlobalString("provider"), c.String("demo-flag"), c.String("demo-bool"))
 		},
 	}
 }
