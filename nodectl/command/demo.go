@@ -17,10 +17,13 @@ limitations under the License.
 package command
 
 import (
+	"fmt"
+
 	"github.com/codegangsta/cli"
+	"github.com/nodetemple/nodetemple/nodectl/util"
 )
 
-func DemoCommand() cli.Command{
+func DemoCmd() cli.Command{
 	return cli.Command{
 		Name:  "demo",
 		Usage: "a simple `hello world` demo",
@@ -29,7 +32,12 @@ func DemoCommand() cli.Command{
 			cli.BoolFlag{Name: "demo-bool", Value: true, Usage: "demo bool usage"},
 		},
 		Action: func(c *cli.Context) {
-			println("result:", c.Args().First(), c.GlobalString("provider"), c.String("demo-flag"), c.String("demo-bool"))
+			if c.String("demo-flag") == "" {
+				util.Err("missing '--demo-flag'")
+			}
+			else {
+				util.Out("result:\n\targs: %v\n\tprovider: %v\n\tdemo-flag: %v\n\tdemo-bool: %v")
+			}
 		},
 	}
 }

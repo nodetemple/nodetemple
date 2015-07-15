@@ -22,20 +22,26 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/nodetemple/nodetemple/common"
 	"github.com/nodetemple/nodetemple/version"
+	"github.com/nodetemple/nodetemple/nodectl/util"
 	"github.com/nodetemple/nodetemple/nodectl/command"
 )
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "nodectl"
-	app.Version = version.Version
 	app.Usage = "CLI for an orchestration of CoreOS and Kubernetes cluster"
+	app.Authors = []cli.Author{cli.Author{Name: "Nodetemple", Email: "hostmaster@nodetemple.com"}}
+	app.Copyright = "Copyright 2015"
+	app.Version = version.Version
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{Name: "debug", Usage: "print out more debug information to stderr"},
 		cli.StringFlag{Name: "provider, p", Value: common.DefaultProvider, Usage: "provider to use when managing a cluster", EnvVar: "NODECTL_PROVIDER",},
 	}
 	app.Commands = []cli.Command{
-		command.DemoCommand(),
+		command.DemoCmd(),
+	}
+	app.CommandNotFound = func(c *cli.Context, command string) {
+		util.Err("command '%v' not found\nRun 'nodectl help [command]' for more information about a specific command usage", command)
 	}
 
 	app.Run(os.Args)
