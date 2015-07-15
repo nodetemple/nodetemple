@@ -33,7 +33,7 @@ func DemoCmd() cli.Command{
 			if c.String("demo-flag") == "" {
 				util.Err("missing '--demo-flag'")
 			} else {
-				util.Out("result:\n\targs: %v\n\tprovider: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().First(), c.GlobalString("provider"), c.String("demo-flag"), c.String("demo-bool"))
+				util.Out("result:\n\targs: %v\n\tprovider: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().Get(0), c.GlobalString("provider"), c.String("demo-flag"), c.String("demo-bool"))
 			}
 		},
 	}
