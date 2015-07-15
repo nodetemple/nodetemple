@@ -25,7 +25,7 @@ import (
 func Err(format string, a ...interface{}) {
 	out := fmt.Sprintf(format, a...)
 	fmt.Fprintln(os.Stderr, "Error:", strings.TrimSuffix(out, "\n"))
-	//os.Exit(1)
+	os.Exit(1)
 }
 
 func Out(format string, a ...interface{}) {
