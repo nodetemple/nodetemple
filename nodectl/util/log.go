@@ -14,21 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package util
-
 import (
+	"log"
 	"os"
-	"fmt"
-	"strings"
 )
 
-func Err(format string, a ...interface{}) {
-	out := fmt.Sprintf(format, a...)
-	fmt.Fprintln(os.Stderr, "Error:", strings.TrimSuffix(out, "\n"))
-	os.Exit(1)
-}
-
-func Out(format string, a ...interface{}) {
-	out := fmt.Sprintf(format, a...)
-	fmt.Fprintln(os.Stdout, strings.TrimSuffix(out, "\n"))
+func init() {
+	Out = log.New(os.Stdout, "", LstdFlags)
+	Err = log.New(os.Stderr, "ERROR: ", LstdFlags)
 }
