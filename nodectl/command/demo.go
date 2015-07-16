@@ -24,11 +24,11 @@ import (
 func DemoCmd() cli.Command {
 	return cli.Command{
 		Name:  "demo",
-		Usage: "a simple `hello world` demo",
-		Description: util.CliDesc("a simple `hello world` demo\nwith output of flags, args, etc."),
+		Usage: "A simple `hello world` demo",
+		Description: util.CliDesc("A simple `hello world` demo\nwith output of flags, args, etc."),
 		Flags: []cli.Flag{
-			cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
-			cli.BoolFlag{Name: "demo-bool", Usage: "demo bool usage"},
+			cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "Demo flag usage"},
+			cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
 		},
 		Action: cmdDemoFunc,
 	}
@@ -39,5 +39,5 @@ func cmdDemoFunc(c *cli.Context) {
 		util.Err("missing '--demo-flag'")
 	}
 
-	util.Out("result:\n\targs: %v\n\tprovider: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().Get(0), c.GlobalString("provider"), c.String("demo-flag"), c.String("demo-bool"))
+	util.Out("Result:\n\targs: %v\n\tprovider: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().Get(0), c.GlobalString("provider"), c.String("demo-flag"), c.String("demo-bool"))
 }

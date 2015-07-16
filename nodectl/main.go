@@ -32,9 +32,9 @@ func main() {
 	app.Usage = "CLI for an orchestration of CoreOS and Kubernetes cluster"
 	app.Version = version.Version
 	app.Flags = []cli.Flag{
-		cli.BoolFlag{Name: "debug", Usage: "print out more debug information to stderr"},
-		cli.StringFlag{Name: "provider, p", Value: common.DefaultProvider, Usage: "provider to use when managing a cluster", EnvVar: util.EnvVarConv(app.Name, "provider"),},
-		cli.StringFlag{Name: "provider-key, k", Value: "", Usage: "provider's API key to use when managing a cluster", EnvVar: util.EnvVarConv(app.Name, "provider-key"),},
+		cli.BoolFlag{Name: "debug", Usage: "Print out more debug information to stderr"},
+		cli.StringFlag{Name: "provider, p", Value: common.DefaultProvider, Usage: "Provider to use when managing a cluster", EnvVar: util.EnvVarConv(app.Name, "provider"),},
+		cli.StringFlag{Name: "provider-key, k", Value: "", Usage: "Provider's API key to use when managing a cluster", EnvVar: util.EnvVarConv(app.Name, "provider-key"),},
 	}
 	app.Commands = []cli.Command{
 		command.DemoCmd(),
