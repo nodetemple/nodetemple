@@ -21,7 +21,7 @@ import (
 	"os"
 )
 
-const (
+var (
 	Out = log.New(os.Stdout, "", log.LstdFlags)
 	Err = log.New(os.Stderr, "ERROR: ", log.LstdFlags)
 )
