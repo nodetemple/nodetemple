@@ -19,7 +19,7 @@ package main
 import (
 	"os"
 
-	"github.com/codegangsta/cli"
+	"github.com/nodetemple/cli"
 	"github.com/nodetemple/nodetemple/common"
 	"github.com/nodetemple/nodetemple/version"
 	"github.com/nodetemple/nodetemple/nodectl/util"
