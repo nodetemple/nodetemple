@@ -21,7 +21,7 @@ import (
 	"os"
 )
 
-func init() {
-	Out = log.New(os.Stdout, "", LstdFlags)
-	Err = log.New(os.Stderr, "ERROR: ", LstdFlags)
-}
+const (
+	Out = log.New(os.Stdout, "", log.LstdFlags)
+	Err = log.New(os.Stderr, "ERROR: ", log.LstdFlags)
+)
