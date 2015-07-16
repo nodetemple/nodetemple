@@ -22,6 +22,6 @@ import (
 )
 
 var (
-	Out = log.New(os.Stdout, "", log.LstdFlags)
-	Err = log.New(os.Stderr, "ERROR: ", log.LstdFlags)
+	Out = log.New(os.Stdout, "", 0)
+	Err = log.New(os.Stderr, "ERROR: ", 0)
 )
