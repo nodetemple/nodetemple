@@ -40,7 +40,7 @@ func main() {
 		command.DemoCmd(),
 	}
 	app.CommandNotFound = func(c *cli.Context, command string) {
-		Err.Fatalf("command '%v' not found\nRun '%v help [command]' for more information about a specific command usage", command, c.App.Name)
+		util.Err.Fatalf("command '%v' not found\nRun '%v help [command]' for more information about a specific command usage", command, c.App.Name)
 	}
 
 	app.Run(os.Args)
