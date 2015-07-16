@@ -31,6 +31,22 @@ func DemoCmd() cli.Command {
 			cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
 		},
 		Action: cmdDemoFunc,
+		Subcommands: []cli.Command{
+			{
+				Name:  "add",
+				Usage: "add a new template",
+				Action: func(c *cli.Context) {
+					util.Out("add: %v", c.Args().First())
+				},
+			},
+			{
+				Name:  "remove",
+				Usage: "remove an existing template",
+				Action: func(c *cli.Context) {
+					util.Out("remove: %v", c.Args().First())
+				},
+			},
+		},
 	}
 }
 
