@@ -21,7 +21,7 @@ import (
 	"github.com/nodetemple/nodetemple/nodectl/util"
 )
 
-func DemoCmd() cli.Command{
+func DemoCmd() cli.Command {
 	return cli.Command{
 		Name:  "demo",
 		Usage: "a simple `hello world` demo",
@@ -30,12 +30,14 @@ func DemoCmd() cli.Command{
 			cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "demo flag usage"},
 			cli.BoolFlag{Name: "demo-bool", Usage: "demo bool usage"},
 		},
-		Action: func(c *cli.Context) {
-			if c.String("demo-flag") == "" {
-				util.Err("missing '--demo-flag'")
-			}
-
-			util.Out("result:\n\targs: %v\n\tprovider: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().Get(0), c.GlobalString("provider"), c.String("demo-flag"), c.String("demo-bool"))
-		},
+		Action: cmdDemoFunc,
 	}
+}
+
+func cmdDemoFunc(c *cli.Context) {
+	if c.String("demo-flag") == "" {
+		util.Err("missing '--demo-flag'")
+	}
+
+	util.Out("result:\n\targs: %v\n\tprovider: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().Get(0), c.GlobalString("provider"), c.String("demo-flag"), c.String("demo-bool"))
 }
