@@ -22,6 +22,14 @@ import (
 )
 
 var (
-	Out = log.New(os.Stdout, "", 0)
-	Err = log.New(os.Stderr, "ERROR: ", 0)
+	outLogger = log.New(os.Stdout, "", 0)
+	errLogger = log.New(os.Stderr, "Error: ", 0)
 )
+
+func Out(format string, a ...interface{}) {
+	outLogger.Printf(format, a...)
+}
+
+func Err(format string, a ...interface{}) {
+	errLogger.Fatalf(format, a...)
+}
