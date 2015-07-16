@@ -26,11 +26,11 @@ func DemoCmd() cli.Command {
 		Name:  "demo",
 		Usage: "A simple `hello world` demo",
 		Description: util.CliDesc("A simple `hello world` demo\nwith output of flags, args, etc."),
-		Flags: []cli.Flag{
+		/*Flags: []cli.Flag{
 			cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "Demo flag usage"},
 			cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
 		},
-		Action: cmdDemoFunc,
+		Action: cmdDemoFunc,*/
 		Subcommands: []cli.Command{
 			{
 				Name:  "add",
