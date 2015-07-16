@@ -23,3 +23,7 @@ import (
 func EnvVarConv(app string, val string) string {
 	return strings.ToUpper(app + "_" + strings.Replace(val, "-", "_", -1))
 }
+
+func CliDesc(desc string) string {
+	return strings.Replace(desc, "\n", "\n" + strings.Repeat(" ", 3), -1)
+}
