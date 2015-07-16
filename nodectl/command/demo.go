@@ -17,7 +17,7 @@ limitations under the License.
 package command
 
 import (
-	"github.com/nodetemple/cli"
+	"github.com/codegangsta/cli"
 	"github.com/nodetemple/nodetemple/nodectl/util"
 )
 
