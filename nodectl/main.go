@@ -49,4 +49,6 @@ func appBefore(c *cli.Context) error {
 	if c.String("providers") == "" && !c.Bool("help") && !c.Bool("version") {
 		util.Err("set at least one provider with a valid API key")
 	}
+
+	return nil
 }
