@@ -36,14 +36,14 @@ func DemoCmd() cli.Command {
 				Name:  "add",
 				Usage: "Add a new template",
 				Action: func(c *cli.Context) {
-					util.Out("add: %v", c.Args().First())
+					Action: demoCmdFunc
 				},
 			},
 			{
 				Name:  "remove",
 				Usage: "Remove an existing template",
 				Action: func(c *cli.Context) {
-					util.Out("remove: %v", c.Args().First())
+					Action: demoCmdFunc
 				},
 			},
 		},
@@ -51,9 +51,9 @@ func DemoCmd() cli.Command {
 }
 
 func demoCmdFunc(c *cli.Context) {
-	if c.String("demo-flag") == "" {
+	/*if c.String("demo-flag") == "" {
 		util.Err("missing '--demo-flag'")
-	}
+	}*/
 
 	util.Out("Result:\n\targs: %v\n\tproviders: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().Get(0), c.GlobalStringSlice("providers"), c.String("demo-flag"), c.String("demo-bool"))
 }
