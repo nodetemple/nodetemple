@@ -34,11 +34,19 @@ var DemoCmd = cli.Command{
 		{
 			Name:  "add",
 			Usage: "Add a new template",
+			Flags: []cli.Flag{
+				cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "Demo flag usage"},
+				cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
+			},
 			Action: demoCmdFunc,
 		},
 		{
 			Name:  "remove",
 			Usage: "Remove an existing template",
+			Flags: []cli.Flag{
+				cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "Demo flag usage"},
+				cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
+			},
 			Action: demoCmdFunc,
 		},
 	},
