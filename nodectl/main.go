@@ -42,6 +42,12 @@ func main() {
 		util.Err("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
 	}
 
+	/* TODO
+	if err := app.Run(os.Args); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}*/
+
 	app.RunAndExitOnError()
 }
 
