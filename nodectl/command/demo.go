@@ -35,16 +35,12 @@ func DemoCmd() cli.Command {
 			{
 				Name:  "add",
 				Usage: "Add a new template",
-				Action: func(c *cli.Context) {
-					Action: demoCmdFunc
-				},
+				Action: demoCmdFunc,
 			},
 			{
 				Name:  "remove",
 				Usage: "Remove an existing template",
-				Action: func(c *cli.Context) {
-					Action: demoCmdFunc
-				},
+				Action: demoCmdFunc,
 			},
 		},
 	}
