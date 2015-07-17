@@ -16,6 +16,6 @@ limitations under the License.
 
 package common
 
-const (
+var (
 	AvailableProviders = []string{"do", "aws", "gce"}
 )
