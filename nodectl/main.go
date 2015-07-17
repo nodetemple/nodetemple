@@ -35,26 +35,11 @@ func main() {
 		cli.StringFlag{Name: "providers, p", Usage: "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'", EnvVar: util.EnvVarConv(app.Name, "providers"),},
 		cli.BoolFlag{Name: "debug", Usage: "Print out more debug information to stderr"},
 	}
-	/*app.Before = func(c *cli.Context) error {
-		if c.String("api-key") != "" {
-			APIKey = c.String("api-key")
+	app.Before = func(c *cli.Context) {
+		if c.String("providers") == "" && !c.Bool("help") && !c.Bool("version") {
+			util.Err("must provide API Key via NODECTL_PROVIDERS environment variable or via CLI argument.")
 		}
-
-		if APIKey == "" && !c.Bool("help") && !c.Bool("version") {
-			return errors.New("must provide API Key via NODECTL_PROVIDERS environment variable or via CLI argument.")
-		}
-
-		switch c.String("format") {
-		case "json":
-			OutputFormat = c.String("format")
-		case "yaml":
-			OutputFormat = c.String("format")
-		default:
-			return fmt.Errorf("invalid output format: %q, available output options: json, yaml.", c.String("format"))
-		}
-
-		return nil
-	}*/
+	}
 	app.Commands = []cli.Command{
 		command.DemoCmd(),
 	}
@@ -62,5 +47,5 @@ func main() {
 		util.Err("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
 	}
 
-	app.Run(os.Args)
+	app.RunAndExitOnError()
 }
