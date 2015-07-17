@@ -18,6 +18,8 @@ package util
 
 import (
 	"strings"
+
+	"github.com/codegangsta/cli"
 )
 
 func EnvVarConv(app string, val string) string {
