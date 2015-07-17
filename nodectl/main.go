@@ -37,7 +37,7 @@ func main() {
 	}
 	app.Before = func(c *cli.Context) {
 		if c.String("providers") == "" && !c.Bool("help") && !c.Bool("version") {
-			util.Err("must provide API Key via NODECTL_PROVIDERS environment variable or via CLI argument.")
+			util.Err("set at least one provider with a valid API key")
 		}
 	}
 	app.Commands = []cli.Command{
