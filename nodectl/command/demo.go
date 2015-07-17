@@ -21,29 +21,27 @@ import (
 	"github.com/nodetemple/nodetemple/nodectl/util"
 )
 
-func DemoCmd() cli.Command {
-	return cli.Command{
-		Name:  "demo",
-		Usage: "A simple `hello world` demo",
-		Description: "A simple `hello world` demo with output of flags, args, etc.",
-		/*Flags: []cli.Flag{
-			cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "Demo flag usage"},
-			cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
+var DemoCmd = cli.Command{
+	Name:  "demo",
+	Usage: "A simple `hello world` demo",
+	Description: "A simple `hello world` demo with output of flags, args, etc.",
+	/*Flags: []cli.Flag{
+		cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "Demo flag usage"},
+		cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
+	},
+	Action: demoCmdFunc,*/
+	Subcommands: []cli.Command{
+		{
+			Name:  "add",
+			Usage: "Add a new template",
+			Action: demoCmdFunc,
 		},
-		Action: demoCmdFunc,*/
-		Subcommands: []cli.Command{
-			{
-				Name:  "add",
-				Usage: "Add a new template",
-				Action: demoCmdFunc,
-			},
-			{
-				Name:  "remove",
-				Usage: "Remove an existing template",
-				Action: demoCmdFunc,
-			},
+		{
+			Name:  "remove",
+			Usage: "Remove an existing template",
+			Action: demoCmdFunc,
 		},
-	}
+	},
 }
 
 func demoCmdFunc(c *cli.Context) {

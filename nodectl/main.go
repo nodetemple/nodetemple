@@ -40,7 +40,7 @@ func main() {
 		}
 	}
 	app.Commands = []cli.Command{
-		command.DemoCmd(),
+		command.DemoCmd,
 	}
 	app.CommandNotFound = func(c *cli.Context, command string) {
 		util.Err("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
