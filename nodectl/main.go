@@ -32,7 +32,7 @@ func main() {
 	app.Usage = "CLI for an orchestration of CoreOS and Kubernetes cluster"
 	app.Version = common.Version
 	app.Flags = []cli.Flag{
-		cli.StringFlag{Name: "providers, p", Usage: "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+"), e.g.: do:do-api-key,gce:gce-api-key", EnvVar: util.EnvVarConv(app.Name, "providers"),},
+		cli.StringFlag{Name: "providers, p", Usage: "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'", EnvVar: util.EnvVarConv(app.Name, "providers"),},
 		cli.BoolFlag{Name: "debug", Usage: "Print out more debug information to stderr"},
 	}
 	/*app.Before = func(c *cli.Context) error {
