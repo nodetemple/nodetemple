@@ -23,3 +23,13 @@ import (
 func EnvVarConv(app string, val string) string {
 	return strings.ToUpper(app + "_" + strings.Replace(val, "-", "_", -1))
 }
+
+func StringSliceContains(slice []string, item string) bool {
+	set := make(map[string]struct{}, len(slice))
+    for _, s := range slice {
+        set[s] = struct{}{}
+    }
+
+    _, ret := set[item]
+    return ret
+}
