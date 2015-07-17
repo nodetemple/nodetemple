@@ -33,7 +33,7 @@ func main() {
 	app.Usage = "CLI for an orchestration of CoreOS and Kubernetes cluster"
 	app.Version = version.Version
 	app.Flags = []cli.Flag{
-		cli.StringSliceFlag{Name: "providers, p", Usage: "A comma-separated list of providers ("+strings.Join(common.AvailableProviders, ", ")+") to use when managing a cluster, e.g.: do:54c234d6e7...", EnvVar: util.EnvVarConv(app.Name, "providers"),},
+		cli.StringFlag{Name: "providers, p", Usage: "A comma-separated list of providers ("+strings.Join(common.AvailableProviders, ", ")+") to use when managing a cluster, e.g.: do:54c234d6e7...", EnvVar: util.EnvVarConv(app.Name, "providers"),},
 		cli.BoolFlag{Name: "debug", Usage: "Print out more debug information to stderr"},
 	}
 	/*app.Before = func(c *cli.Context) error {
