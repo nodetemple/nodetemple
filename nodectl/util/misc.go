@@ -33,3 +33,11 @@ func StringSliceContains(slice []string, item string) bool {
     _, ret := set[item]
     return ret
 }
+
+func CheckHelpVersion(c *cli.Context) bool {
+	if c.GlobalBool("help") || c.GlobalBool("h") || c.GlobalBool("version") || c.GlobalBool("v") || c.Bool("help") || c.Bool("h") || c.Bool("version") || c.Bool("v") || StringSliceContains(c.Args(), "help") || StringSliceContains(c.Args(), "h") {
+		return true
+	}
+
+	return false
+}
