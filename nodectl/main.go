@@ -18,6 +18,7 @@ package main
 
 import (
 	"os"
+	"strings"
 
 	"github.com/codegangsta/cli"
 	"github.com/nodetemple/nodetemple/common"
@@ -32,10 +33,29 @@ func main() {
 	app.Usage = "CLI for an orchestration of CoreOS and Kubernetes cluster"
 	app.Version = version.Version
 	app.Flags = []cli.Flag{
+		cli.StringSliceFlag{Name: "providers, p", Usage: "A comma-separated list of providers ("+strings.Join(common.AvailableProviders, ", ")+") to use when managing a cluster, e.g.: do:54c234d6e7...", EnvVar: util.EnvVarConv(app.Name, "providers"),},
 		cli.BoolFlag{Name: "debug", Usage: "Print out more debug information to stderr"},
-		cli.StringFlag{Name: "provider, p", Value: common.DefaultProvider, Usage: "Provider to use when managing a cluster", EnvVar: util.EnvVarConv(app.Name, "provider"),},
-		cli.StringFlag{Name: "provider-key, k", Value: "", Usage: "Provider's API key to use when managing a cluster", EnvVar: util.EnvVarConv(app.Name, "provider-key"),},
 	}
+	/*app.Before = func(c *cli.Context) error {
+		if c.String("api-key") != "" {
+			APIKey = c.String("api-key")
+		}
+
+		if APIKey == "" && !c.Bool("help") && !c.Bool("version") {
+			return errors.New("must provide API Key via NODECTL_PROVIDERS environment variable or via CLI argument.")
+		}
+
+		switch c.String("format") {
+		case "json":
+			OutputFormat = c.String("format")
+		case "yaml":
+			OutputFormat = c.String("format")
+		default:
+			return fmt.Errorf("invalid output format: %q, available output options: json, yaml.", c.String("format"))
+		}
+
+		return nil
+	}*/
 	app.Commands = []cli.Command{
 		command.DemoCmd(),
 	}

@@ -30,18 +30,18 @@ func DemoCmd() cli.Command {
 			cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "Demo flag usage"},
 			cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
 		},
-		Action: cmdDemoFunc,*/
+		Action: demoCmdFunc,*/
 		Subcommands: []cli.Command{
 			{
 				Name:  "add",
-				Usage: "add a new template",
+				Usage: "Add a new template",
 				Action: func(c *cli.Context) {
 					util.Out("add: %v", c.Args().First())
 				},
 			},
 			{
 				Name:  "remove",
-				Usage: "remove an existing template",
+				Usage: "Remove an existing template",
 				Action: func(c *cli.Context) {
 					util.Out("remove: %v", c.Args().First())
 				},
@@ -50,10 +50,10 @@ func DemoCmd() cli.Command {
 	}
 }
 
-func cmdDemoFunc(c *cli.Context) {
+func demoCmdFunc(c *cli.Context) {
 	if c.String("demo-flag") == "" {
 		util.Err("missing '--demo-flag'")
 	}
 
-	util.Out("Result:\n\targs: %v\n\tprovider: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().Get(0), c.GlobalString("provider"), c.String("demo-flag"), c.String("demo-bool"))
+	util.Out("Result:\n\targs: %v\n\tproviders: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().Get(0), c.GlobalStringSlice("providers"), c.String("demo-flag"), c.String("demo-bool"))
 }

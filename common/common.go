@@ -17,5 +17,5 @@ limitations under the License.
 package common
 
 const (
-	DefaultProvider = "do"
+	AvailableProviders = []string{"do", "aws", "gce"}
 )
