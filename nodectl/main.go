@@ -22,7 +22,6 @@ import (
 
 	"github.com/codegangsta/cli"
 	"github.com/nodetemple/nodetemple/common"
-	"github.com/nodetemple/nodetemple/version"
 	"github.com/nodetemple/nodetemple/nodectl/util"
 	"github.com/nodetemple/nodetemple/nodectl/command"
 )
@@ -31,7 +30,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "nodectl"
 	app.Usage = "CLI for an orchestration of CoreOS and Kubernetes cluster"
-	app.Version = version.Version
+	app.Version = common.Version
 	app.Flags = []cli.Flag{
 		cli.StringFlag{Name: "providers, p", Usage: "A comma-separated list of providers ("+strings.Join(common.AvailableProviders, ", ")+") to use when managing a cluster, e.g.: do:54c234d6e7...", EnvVar: util.EnvVarConv(app.Name, "providers"),},
 		cli.BoolFlag{Name: "debug", Usage: "Print out more debug information to stderr"},
