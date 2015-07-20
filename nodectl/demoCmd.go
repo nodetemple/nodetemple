@@ -17,8 +17,6 @@ limitations under the License.
 package main
 
 import (
-	"fmt"
-
 	"github.com/codegangsta/cli"
 )
 
