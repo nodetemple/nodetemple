@@ -36,7 +36,7 @@ func main() {
 	app.Commands = []cli.Command{
 		demoCmd,
 	}
-	app.CommandNotFound = cmdNotFound
+	app.CommandNotFound = func(c *cli.Context, command string) error { return cmdNotFound(c, command) }
 
 	if err := app.Run(os.Args); err != nil {
 		stderr(err)
