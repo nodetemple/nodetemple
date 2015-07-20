@@ -55,5 +55,5 @@ func stderr(format string, a ...interface{}) {
 }
 
 func cmdNotFound(c *cli.Context, command string) error {
-	fmt.Errorf("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
+	return fmt.Errorf("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
 }
