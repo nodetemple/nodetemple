@@ -17,12 +17,12 @@ limitations under the License.
 package main
 
 import (
+	"os"
+	"fmt"
 	"strings"
 
 	"github.com/codegangsta/cli"
 	"github.com/nodetemple/nodetemple/common"
-	"github.com/nodetemple/nodetemple/nodectl/util"
-	"github.com/nodetemple/nodetemple/nodectl/command"
 )
 
 func main() {
@@ -31,16 +31,27 @@ func main() {
 	app.Usage = "CLI for an orchestration of CoreOS and Kubernetes cluster"
 	app.Version = common.Version
 	app.Flags = []cli.Flag{
-		cli.StringFlag{Name: "providers, p", Usage: "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'", EnvVar: util.EnvVarConv(app.Name, "providers"),},
+		cli.StringFlag{Name: "providers, p", Usage: "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'", EnvVar: envVarConv(app.Name, "providers"),},
 	}
 	app.Commands = []cli.Command{
-		command.DemoCmd,
+		demoCmd,
 	}
-	app.CommandNotFound = func(c *cli.Context, command string) {
-		util.Err("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
+	app.CommandNotFound = func(c *cli.Context, command string) error {
+		stderr("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
+		return
 	}
 
 	if err := app.Run(os.Args); err != nil {
-		util.Err(err)
+		os.Exit(1)
 	}
+}
+
+func stdout(format string, a ...interface{}) {
+	out := fmt.Sprintf(format, a...)
+	fmt.Fprintln(os.Stdout, strings.TrimSuffix(out, "\n"))
+}
+
+func stderr(err string) {
+	out := fmt.Sprintf(format, a...)
+	fmt.Fprintln(os.Stderr, strings.TrimSuffix(err, "\n"))
 }

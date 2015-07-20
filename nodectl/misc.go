@@ -14,22 +14,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package util
+package main
 
 import (
-	"log"
-	"os"
+	"strings"
 )
 
-var (
-	outLogger = log.New(os.Stdout, "", 0)
-	errLogger = log.New(os.Stderr, "Error: ", 0)
-)
-
-func Out(format string, a ...interface{}) {
-	outLogger.Printf(format, a...)
+func envVarConv(app string, val string) string {
+	return strings.ToUpper(app + "_" + strings.Replace(val, "-", "_", -1))
 }
 
-func Err(format string, a ...interface{}) {
-	errLogger.Fatalf(format, a...)
+func stringSliceContains(slice []string, item string) bool {
+	set := make(map[string]struct{}, len(slice))
+    for _, s := range slice {
+        set[s] = struct{}{}
+    }
+
+    _, ret := set[item]
+    return ret
 }

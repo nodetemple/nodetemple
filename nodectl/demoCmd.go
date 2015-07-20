@@ -14,14 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package command
+package main
 
 import (
+	"fmt"
+
 	"github.com/codegangsta/cli"
-	"github.com/nodetemple/nodetemple/nodectl/util"
 )
 
-var DemoCmd = cli.Command{
+var demoCmd = cli.Command{
 	Name:  "demo",
 	Usage: "A simple `hello world` demo",
 	Description: "A simple `hello world` demo with output of flags, args, etc.",
@@ -47,10 +48,12 @@ var DemoCmd = cli.Command{
 	},
 }
 
-func demoCmdFunc(c *cli.Context) {
+func demoCmdFunc(c *cli.Context) error {
 	if c.String("demo-flag") == "" {
-		util.Err("missing '--demo-flag'")
+		stderr("missing '--demo-flag'")
+		return
 	}
 
-	util.Out("Result:\n\targs: %v\n\tproviders: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().Get(0), c.GlobalString("providers"), c.String("demo-flag"), c.String("demo-bool"))
+	stdout("Result:\n\targs: %v\n\tproviders: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().Get(0), c.GlobalString("providers"), c.String("demo-flag"), c.String("demo-bool"))
+	return nil
 }
