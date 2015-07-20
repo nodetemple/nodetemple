@@ -36,11 +36,10 @@ func main() {
 	app.Commands = []cli.Command{
 		demoCmd,
 	}
-	app.CommandNotFound = func(c *cli.Context, command string) error {
-		return cmdNotFound(c, command)
-	}
+	app.CommandNotFound = cmdNotFound
 
 	if err := app.Run(os.Args); err != nil {
+		stderr(err)
 		os.Exit(1)
 	}
 }
@@ -56,6 +55,5 @@ func stderr(format string, a ...interface{}) {
 }
 
 func cmdNotFound(c *cli.Context, command string) error {
-	stderr("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
-	return
+	fmt.Errorf("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
 }
