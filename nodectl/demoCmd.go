@@ -34,7 +34,7 @@ var demoCmd = cli.Command{
 				cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "Demo flag usage"},
 				cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
 			},
-			Action: func(c *cli.Context) error { return demoCmdFunc(c) },
+			Action: demoCmdFunc,
 		},
 		{
 			Name:  "remove",
@@ -43,16 +43,15 @@ var demoCmd = cli.Command{
 				cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "Demo flag usage"},
 				cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
 			},
-			Action: func(c *cli.Context) error { return demoCmdFunc(c) },
+			Action: demoCmdFunc,
 		},
 	},
 }
 
-func demoCmdFunc(c *cli.Context) error {
+func demoCmdFunc(c *cli.Context) {
 	if c.String("demo-flag") == "" {
-		return fmt.Errorf("missing '--demo-flag'")
+		stderr("missing '--demo-flag'")
 	}
 
 	stdout("Result:\n\targs: %v\n\tproviders: %v\n\tdemo-flag: %v\n\tdemo-bool: %v", c.Args().Get(0), c.GlobalString("providers"), c.String("demo-flag"), c.String("demo-bool"))
-	return nil
 }
