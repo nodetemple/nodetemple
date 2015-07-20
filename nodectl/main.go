@@ -19,7 +19,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 	"text/tabwriter"
@@ -104,31 +103,13 @@ func init() {
 	}
 }
 
-type handlerFunc func([]string, *update.Service, *tabwriter.Writer) int
-
-/*func getHawkClient(user string, key string) *http.Client {
-	return &http.Client{
-		Transport: &auth.HawkRoundTripper{
-			User:          user,
-			Token:         key,
-			SkipSSLVerify: globalFlags.SkipSSLVerify,
-		},
-	}
-}*/
+type handlerFunc func([]string, *tabwriter.Writer) int
 
 func handle(fn handlerFunc) func(f *flag.FlagSet) int {
 	return func(f *flag.FlagSet) (exit int) {
-		user := globalFlags.User
 		key := globalFlags.Key
-		/*client := getHawkClient(user, key)
 
-		service, err := update.New(client)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		service.BasePath = globalFlags.Server + "/_ah/api/update/v1/"
-		exit = fn(f.Args(), service, out)*/
+		exit = OK
 		return
 	}
 }

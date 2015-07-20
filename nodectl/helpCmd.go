@@ -90,7 +90,7 @@ DESCRIPTION:
 `[1:]))
 }
 
-func runHelp(args []string, service *update.Service, out *tabwriter.Writer) int {
+func runHelp(args []string, out *tabwriter.Writer) int {
 	if len(args) < 1 {
 		printGlobalUsage()
 		return OK
