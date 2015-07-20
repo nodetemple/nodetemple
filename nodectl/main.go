@@ -113,7 +113,7 @@ func handle(fn handlerFunc) func(f *flag.FlagSet) int {
 	return func(f *flag.FlagSet) (exit int) {
 		//key := globalFlags.Key
 
-		exit = OK
+		exit = fn(f.Args(), out)
 		return
 	}
 }
