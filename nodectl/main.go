@@ -38,6 +38,7 @@ func main() {
 	}
 	app.CommandNotFound = func(c *cli.Context, command string) {
 		stderr("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
+		os.Exit(1)
 	}
 
 	if err := app.Run(os.Args); err != nil {
