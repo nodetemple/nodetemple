@@ -107,7 +107,7 @@ type handlerFunc func([]string, *tabwriter.Writer) int
 
 func handle(fn handlerFunc) func(f *flag.FlagSet) int {
 	return func(f *flag.FlagSet) (exit int) {
-		key := globalFlags.Key
+		//key := globalFlags.Key
 
 		exit = OK
 		return
