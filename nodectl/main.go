@@ -50,9 +50,9 @@ func stdout(format string, a ...interface{}) {
 	fmt.Fprintln(os.Stdout, strings.TrimSuffix(out, "\n"))
 }
 
-func stderr(err string) {
+func stderr(format string, a ...interface{}) {
 	out := fmt.Sprintf(format, a...)
-	fmt.Fprintln(os.Stderr, strings.TrimSuffix(err, "\n"))
+	fmt.Fprintln(os.Stderr, strings.TrimSuffix(out, "\n"))
 }
 
 func cmdNotFound(c *cli.Context, command string) error {
