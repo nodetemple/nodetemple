@@ -39,7 +39,6 @@ var (
 	commandUsageTemplate *template.Template
 	templFuncs           = template.FuncMap{
 		"descToLines": func(s string) []string {
-			// trim leading/trailing whitespace and split into slice of lines
 			return strings.Split(strings.Trim(s, "\n\t "), "\n")
 		},
 		"printOption": func(name, defvalue, usage string) string {

@@ -58,13 +58,13 @@ func (f *StringFlag) String() string {
 }
 
 type Command struct {
-	Name        string       // Name of the Command and the string to use to invoke it
-	Summary     string       // One-sentence summary of what the Command does
-	Usage       string       // Usage options/arguments
-	Description string       // Detailed description of command
-	Flags       flag.FlagSet // Set of flags associated with this command
-	Run         handlerFunc  // Run a command with the given arguments
-	Subcommands []*Command   // Subcommands for this command.
+	Name        string
+	Summary     string
+	Usage       string
+	Description string
+	Flags       flag.FlagSet
+	Run         handlerFunc
+	Subcommands []*Command
 }
 
 var (
@@ -73,9 +73,9 @@ var (
 	commands      []*Command
 
 	globalFlags struct {
-		Debug         bool
-		Version       bool
 		Help          bool
+		Version       bool
+		Debug         bool
 		Server        string
 		Key           string
 	}
@@ -85,15 +85,19 @@ func init() {
 	out = new(tabwriter.Writer)
 	out.Init(os.Stdout, 0, 8, 1, '\t', 0)
 
-	server := "http://localhost:8000" // default server
+	server := "http://localhost:8000"
 	if serverEnv := os.Getenv("UPDATECTL_SERVER"); serverEnv != "" {
 		server = serverEnv
 	}
 
 	globalFlagSet = flag.NewFlagSet(cliName, flag.ExitOnError)
+	globalFlagSet.BoolVar(&globalFlags.Help, "help", false, "Print usage information and exit")
+	globalFlagSet.BoolVar(&globalFlags.Help, "h", false, "Print usage information and exit")
+	globalFlagSet.BoolVar(&globalFlags.Version, "version", false, "Print version information and exit")
+	globalFlagSet.BoolVar(&globalFlags.Version, "v", false, "Print version information and exit")
+
 	globalFlagSet.BoolVar(&globalFlags.Debug, "debug", false, "Output debugging info to stderr")
-	globalFlagSet.BoolVar(&globalFlags.Version, "version", false, "Print version information and exit.")
-	globalFlagSet.BoolVar(&globalFlags.Help, "help", false, "Print usage information and exit.")
+
 	globalFlagSet.StringVar(&globalFlags.Server, "server", server, "Update server to connect to")
 	globalFlagSet.StringVar(&globalFlags.Key, "key", os.Getenv("NODECTL_KEY"), "API Key")
 
@@ -131,7 +135,6 @@ func getFlags(flagset *flag.FlagSet) (flags []*flag.Flag) {
 	return
 }
 
-// determine which Command should be run
 func findCommand(search string, args []string, commands []*Command) (cmd *Command, name string) {
 	if len(args) < 1 {
 		return
@@ -177,20 +180,17 @@ func main() {
 		os.Exit(OK)
 	}
 
-	// no command specified - trigger help
 	if len(args) < 1 {
 		args = append(args, "help")
 	}
 
-	// trim the right most slash because all other uses of globalFlags.Server
-	// append the / already
 	globalFlags.Server = strings.TrimRight(globalFlags.Server, "/")
 
 	cmd, name := findCommand("", args, commands)
 
 	if cmd == nil {
 		fmt.Printf("%v: unknown subcommand: %q\n", cliName, name)
-		fmt.Printf("Run '%v help' for usage.\n", cliName)
+		fmt.Printf("Run '%v help' for usage\n", cliName)
 		os.Exit(ERROR_NO_COMMAND)
 	}
 
