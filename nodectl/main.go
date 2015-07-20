@@ -102,7 +102,7 @@ func init() {
 	globalFlagSet.StringVar(&globalFlags.Key, "key", os.Getenv("NODECTL_KEY"), "API Key")
 
 	commands = []*Command{
-		//cmdApp,
+		cmdDemo,
 		cmdHelp,
 	}
 }
