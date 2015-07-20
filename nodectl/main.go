@@ -34,7 +34,6 @@ func main() {
 		cli.StringFlag{Name: "providers, p", Usage: "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'", EnvVar: util.EnvVarConv(app.Name, "providers"),},
 		cli.BoolFlag{Name: "debug", Usage: "Print out more debug information to stderr"},
 	}
-	app.Before = appBefore
 	app.Commands = []cli.Command{
 		command.DemoCmd,
 	}
@@ -42,19 +41,7 @@ func main() {
 		util.Err("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
 	}
 
-	/* TODO
 	if err := app.Run(os.Args); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}*/
-
-	app.RunAndExitOnError()
-}
-
-func appBefore(c *cli.Context) error {
-	if c.String("providers") == "" && !util.CheckHelpVersion(c) && c.Args().Present() {
-		util.Err("set at least one provider with a valid API key")
+		util.Err(err)
 	}
-
-	return nil
 }

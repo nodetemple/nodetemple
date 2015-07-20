@@ -35,12 +35,3 @@ func StringSliceContains(slice []string, item string) bool {
     _, ret := set[item]
     return ret
 }
-
-func CheckHelpVersion(c *cli.Context) bool {
-	// TODO: check inner help and version flags
-	if c.Bool("help") || c.Bool("version") || StringSliceContains(c.Args(), "help") || StringSliceContains(c.Args(), "h") {
-		return true
-	}
-
-	return false
-}
