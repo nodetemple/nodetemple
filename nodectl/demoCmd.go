@@ -32,7 +32,9 @@ var demoCmd = cli.Command{
 				cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "Demo flag usage"},
 				cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
 			},
-			Action: demoCmdFunc,
+			Action: func(c *cli.Context) error {
+				return demoCmdFunc(c)
+			},
 		},
 		{
 			Name:  "remove",
@@ -41,7 +43,9 @@ var demoCmd = cli.Command{
 				cli.StringFlag{Name: "demo-flag, d", Value: "", Usage: "Demo flag usage"},
 				cli.BoolFlag{Name: "demo-bool", Usage: "Demo bool usage"},
 			},
-			Action: demoCmdFunc,
+			Action: func(c *cli.Context) error {
+				return demoCmdFunc(c)
+			},
 		},
 	},
 }

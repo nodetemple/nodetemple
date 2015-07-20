@@ -37,8 +37,7 @@ func main() {
 		demoCmd,
 	}
 	app.CommandNotFound = func(c *cli.Context, command string) error {
-		stderr("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
-		return
+		return cmdNotFound(c, command)
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -54,4 +53,9 @@ func stdout(format string, a ...interface{}) {
 func stderr(err string) {
 	out := fmt.Sprintf(format, a...)
 	fmt.Fprintln(os.Stderr, strings.TrimSuffix(err, "\n"))
+}
+
+func cmdNotFound(c *cli.Context, command string) error {
+	stderr("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
+	return
 }
