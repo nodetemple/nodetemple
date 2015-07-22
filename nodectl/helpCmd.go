@@ -41,12 +41,17 @@ var (
 		"descToLines": func(s string) []string {
 			return strings.Split(strings.Trim(s, "\n\t "), "\n")
 		},
-		"printOption": func(name, defvalue, usage string) string {
-			prefix := "--"
-			if len(name) == 1 {
-				prefix = "-"
+		"printOption": func(name, shorthand, defvalue, usage string) string {
+			format := "--%s=%s\t%s"
+			/*if _, ok := flag.Value.(*stringValue); ok {
+				format = "--%s=%q\t%s"
+			}*/
+			if len(shorthand) > 0 {
+				format = "    -%s, " + format
+			} else {
+				format = "\t%s" + format
 			}
-			return fmt.Sprintf("\t%s%s=%s\t%s", prefix, name, defvalue, usage)
+			return fmt.Sprintf(format, shorthand, name, defvalue, usage)
 		},
 	}
 )
@@ -66,7 +71,7 @@ COMMANDS:{{range .Commands}}
 {{printf "\t%s\t%s" .Name .Summary}}{{end}}
 
 GLOBAL OPTIONS:{{range .Flags}}
-{{printOption .Name .DefValue .Usage}}{{end}}
+{{printOption .Name .Shorthand .DefValue .Usage}}{{end}}
 
 Run "{{.Executable}} help <command>" for more details on a specific command.
 `[1:]))
@@ -84,7 +89,7 @@ DESCRIPTION:
 {{printf "\t%s\t%s" .Name .Summary}}{{end}}
 {{end}}
 {{if .CmdFlags}}OPTIONS:{{range .CmdFlags}}
-{{printOption .Name .DefValue .Usage}}{{end}}
+{{printOption .Name .Shorthand .DefValue .Usage}}{{end}}
 {{end}}For help on global options run "{{.Executable}} help"
 `[1:]))
 }
