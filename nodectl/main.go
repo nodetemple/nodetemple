@@ -72,6 +72,10 @@ func init() {
 	out.Init(os.Stdout, 0, 8, 1, '\t', 0)
 
 	globalFlagSet = flag.NewFlagSet(cliName, flag.ExitOnError)
+	globalFlagSet.Usage = func() {
+		stderr("Error: incorrect flag usage")
+		stderr("Run '%s help' for usage information", cliName)
+	}
 
 	globalFlagSet.StringVarP(&globalFlags.Providers, "providers", "p", "", "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'")
 
@@ -107,7 +111,7 @@ func main() {
 	cmd, name := findCommand("", args, commands)
 
 	if cmd == nil {
-		stderr("Error: unknown command: %s", name)
+		stderr("Error: unknown command '%s'", name)
 		stderr("Run '%s help' for usage information", cliName)
 		os.Exit(ERROR_NO_COMMAND)
 	}
