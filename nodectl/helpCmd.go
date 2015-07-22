@@ -72,7 +72,7 @@ GLOBAL FLAGS:{{range .Flags}}
 {{printFlag .Shorthand .Name .DefValue .Usage}}{{end}}
 
 Global flags can also be configured via upper-case environment variables prefixed with "{{.ExeEnvPrefix}}_"
-For example, "--some-flag" => "{{.ExeEnvPrefix}}_SOME_FLAG"
+For example: "--some-flag" => "{{.ExeEnvPrefix}}_SOME_FLAG"
 
 Run "{{.Executable}} help <command>" for more details on a specific command
 `[1:]))
@@ -124,12 +124,14 @@ func runHelp(args []string) int {
 func printGlobalUsage() {
 	globalUsageTemplate.Execute(out, struct {
 		Executable  string
+		ExeEnvPrefix string
 		Commands    []*Command
 		Flags       []*flag.Flag
 		Description string
 		Version     string
 	}{
 		cliName,
+		strings.ToUpper(cliName),
 		commands,
 		getAllFlags(),
 		cliDescription,
@@ -140,12 +142,10 @@ func printGlobalUsage() {
 func printCommandUsage(cmd *Command) {
 	commandUsageTemplate.Execute(out, struct {
 		Executable   string
-		ExeEnvPrefix string
 		Cmd          *Command
 		CmdFlags     []*flag.Flag
 	}{
 		cliName,
-		strings.ToUpper(cliName),
 		cmd,
 		getFlags(&cmd.Flags),
 	})
