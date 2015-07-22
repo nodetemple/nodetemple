@@ -18,6 +18,7 @@ package main
 
 import (
 	"os"
+	"io/ioutil"
 	"fmt"
 	"strings"
 	"text/tabwriter"
@@ -72,7 +73,7 @@ func init() {
 	out.Init(os.Stdout, 0, 8, 1, '\t', 0)
 
 	globalFlagSet = flag.NewFlagSet(cliName, flag.ContinueOnError)
-	globalFlagSet.SetOutput(os.DevNull)
+	globalFlagSet.SetOutput(ioutil.Discard)
 	globalFlagSet.Usage = func() {}
 
 	globalFlagSet.StringVarP(&globalFlags.Providers, "providers", "p", "", "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'")
