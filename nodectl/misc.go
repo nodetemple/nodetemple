@@ -32,10 +32,6 @@ func stderr(format string, a ...interface{}) {
 }
 */
 
-func envVarConv(app string, val string) string {
-	return strings.ToUpper(app + "_" + strings.Replace(val, "-", "_", -1))
-}
-
 func stringSliceContains(slice []string, item string) bool {
 	set := make(map[string]struct{}, len(slice))
     for _, s := range slice {

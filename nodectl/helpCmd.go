@@ -21,7 +21,6 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/nodetemple/nodetemple/common"
 	flag "github.com/ogier/pflag"
 )
 
@@ -109,7 +108,8 @@ func runHelp(args []string) int {
 	}
 
 	if cmd == nil {
-		fmt.Printf("Unrecognized command: %s\n", args[0])
+		fmt.Printf("Error: unknown command: %s\n", args[0])
+		fmt.Printf("Run '%s help' for usage information\n", cliName)
 		return ERROR_NO_COMMAND
 	}
 
@@ -129,7 +129,7 @@ func printGlobalUsage() {
 		commands,
 		getAllFlags(),
 		cliDescription,
-		common.Version,
+		cliVersion,
 	})
 }
 

@@ -34,6 +34,7 @@ const (
 
 	cliName        = "nodectl"
 	cliDescription = "CLI for an orchestration of CoreOS and Kubernetes cluster"
+	cliVersion     = common.Version
 )
 
 type StringFlag struct {
@@ -87,7 +88,7 @@ func init() {
 
 	globalFlagSet = flag.NewFlagSet(cliName, flag.ExitOnError)
 
-	globalFlagSet.StringVarP(&globalFlags.Key, "providers", "p", os.Getenv(envVarConv(cliName, "providers")), "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'")
+	globalFlagSet.StringVarP(&globalFlags.Key, "providers", "p", "", "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'")
 
 	globalFlagSet.BoolVar(&globalFlags.Debug, "debug", false, "Output debugging info to stderr")
 	globalFlagSet.BoolVarP(&globalFlags.Version, "version", "v", false, "Print version information and exit")
@@ -106,10 +107,6 @@ func handle(fn handlerFunc) func(f *flag.FlagSet) int {
 		exit = fn(f.Args())
 		return
 	}
-}
-
-func printVersion() {
-	fmt.Printf("%s version %s\n", cliName, common.Version)
 }
 
 func findCommand(search string, args []string, commands []*Command) (cmd *Command, name string) {
@@ -143,12 +140,30 @@ func findCommand(search string, args []string, commands []*Command) (cmd *Comman
 	return
 }
 
+func getFlagsFromEnv(prefix string, fs *flag.FlagSet) {
+	alreadySet := make(map[string]bool)
+	fs.Visit(func(f *flag.Flag) {
+		alreadySet[f.Name] = true
+	})
+	fs.VisitAll(func(f *flag.Flag) {
+		if !alreadySet[f.Name] {
+			key := strings.ToUpper(prefix + "_" + strings.Replace(f.Name, "-", "_", -1))
+			val := os.Getenv(key)
+			if val != "" {
+				fs.Set(f.Name, val)
+			}
+		}
+
+	})
+}
+
 func main() {
 	globalFlagSet.Parse(os.Args[1:])
 	var args = globalFlagSet.Args()
+	getFlagsFromEnv(cliName, globalFlagSet)
 
 	if globalFlags.Version {
-		printVersion()
+		fmt.Printf("%s version %s\n", cliName, cliVersion)
 		os.Exit(OK)
 	}
 
@@ -164,7 +179,7 @@ func main() {
 	cmd, name := findCommand("", args, commands)
 
 	if cmd == nil {
-		fmt.Printf("Error: unknown command: '%s'\n", name)
+		fmt.Printf("Error: unknown command: %s\n", name)
 		fmt.Printf("Run '%s help' for usage information\n", cliName)
 		os.Exit(ERROR_NO_COMMAND)
 	}
