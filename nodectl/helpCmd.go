@@ -19,7 +19,6 @@ package main
 import (
 	"fmt"
 	"strings"
-	"text/tabwriter"
 	"text/template"
 
 	"github.com/nodetemple/nodetemple/common"

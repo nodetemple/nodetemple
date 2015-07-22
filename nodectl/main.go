@@ -99,7 +99,7 @@ func init() {
 	}
 }
 
-type handlerFunc func([]string, *tabwriter.Writer) int
+type handlerFunc func([]string) int
 
 func handle(fn handlerFunc) func(f *flag.FlagSet) int {
 	return func(f *flag.FlagSet) (exit int) {
