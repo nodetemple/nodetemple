@@ -133,7 +133,7 @@ func printCommandUsage(cmd *Command) {
 	commandUsageTemplate.Execute(out, struct {
 		Executable string
 		Cmd        *Command
-		CmdFlags   *flag.FlagSet
+		CmdFlags   *pflag.FlagSet
 	}{
 		cliName,
 		cmd,
