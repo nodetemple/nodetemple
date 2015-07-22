@@ -90,6 +90,7 @@ func main() {
 	if err := globalFlagSet.Parse(os.Args[1:]); err != nil {
 		stderr("Error: %s", err)
 		stderr("Run '%s help' for usage information", cliName)
+		os.Exit(ERROR_USAGE)
     }
 	var args = globalFlagSet.Args()
 	getFlagsFromEnv(cliName, globalFlagSet)
