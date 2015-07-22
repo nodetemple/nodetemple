@@ -18,4 +18,4 @@ package common
 
 const Version = "0.0.1"
 
-var AvailableProviders = []string{"do", "aws", "gce"}
+var AvailableProviders = []string{"do"}
