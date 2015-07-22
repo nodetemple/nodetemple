@@ -94,7 +94,7 @@ DESCRIPTION:
 `[1:]))
 }
 
-func runHelp(args []string, out *tabwriter.Writer) int {
+func runHelp(args []string) int {
 	if len(args) < 1 {
 		printGlobalUsage()
 		return OK
@@ -110,7 +110,7 @@ func runHelp(args []string, out *tabwriter.Writer) int {
 	}
 
 	if cmd == nil {
-		fmt.Printf("Unrecognized command: %v", args[0])
+		fmt.Printf("Unrecognized command: %v\n", args[0])
 		return ERROR_NO_COMMAND
 	}
 

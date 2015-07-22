@@ -31,11 +31,11 @@ var (
 	}
 )
 
-func runDemo(args []string, out *tabwriter.Writer) int {
+func runDemo(args []string) int {
 	if len(args) < 1 {
 		return ERROR_USAGE
 	}
 
-	fmt.Printf("Demo is %s", "ok")
+	fmt.Printf("Demo is %s\n", "ok")
 	return OK
 }

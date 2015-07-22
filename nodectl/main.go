@@ -103,14 +103,13 @@ type handlerFunc func([]string, *tabwriter.Writer) int
 
 func handle(fn handlerFunc) func(f *flag.FlagSet) int {
 	return func(f *flag.FlagSet) (exit int) {
-		exit = fn(f.Args(), out)
+		exit = fn(f.Args())
 		return
 	}
 }
 
-func printVersion(out *tabwriter.Writer) {
-	fmt.Fprintf(out, "%s version %s\n", cliName, common.Version)
-	out.Flush()
+func printVersion() {
+	fmt.Printf("%s version %s\n", cliName, common.Version)
 }
 
 func findCommand(search string, args []string, commands []*Command) (cmd *Command, name string) {
@@ -149,7 +148,7 @@ func main() {
 	var args = globalFlagSet.Args()
 
 	if globalFlags.Version {
-		printVersion(out)
+		printVersion()
 		os.Exit(OK)
 	}
 
@@ -165,8 +164,8 @@ func main() {
 	cmd, name := findCommand("", args, commands)
 
 	if cmd == nil {
-		fmt.Printf("Error: unknown command: '%v'", name)
-		fmt.Printf("Run '%v help' for usage information", cliName)
+		fmt.Printf("Error: unknown command: '%v'\n", name)
+		fmt.Printf("Run '%v help' for usage information\n", cliName)
 		os.Exit(ERROR_NO_COMMAND)
 	}
 
