@@ -17,13 +17,13 @@ limitations under the License.
 package main
 
 import (
-	"flag"
 	"fmt"
 	"strings"
 	"text/tabwriter"
 	"text/template"
 
 	"github.com/nodetemple/nodetemple/common"
+	flag "github.com/ogier/pflag"
 )
 
 var (
@@ -139,4 +139,16 @@ func printCommandUsage(cmd *Command) {
 		cmd,
 		getFlags(&cmd.Flags),
 	})
+}
+
+func getAllFlags() (flags []*flag.Flag) {
+	return getFlags(globalFlagSet)
+}
+
+func getFlags(flagset *flag.FlagSet) (flags []*flag.Flag) {
+	flags = make([]*flag.Flag, 0)
+	flagset.VisitAll(func(f *flag.Flag) {
+		flags = append(flags, f)
+	})
+	return
 }

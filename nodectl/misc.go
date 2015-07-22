@@ -21,12 +21,6 @@ import (
 )
 
 /* TODO
-app.Name = "nodectl"
-	app.Usage = "CLI for an orchestration of CoreOS and Kubernetes cluster"
-	app.Version = common.Version
-
-cli.StringFlag{Name: "providers, p", Usage: "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'", EnvVar: envVarConv(app.Name, "providers"),},
-
 stderr("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
 
 func stdout(format string, a ...interface{}) {

@@ -17,13 +17,13 @@ limitations under the License.
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 	"strings"
 	"text/tabwriter"
 
 	"github.com/nodetemple/nodetemple/common"
+	flag "github.com/ogier/pflag"
 )
 
 const (
@@ -73,11 +73,11 @@ var (
 	commands      []*Command
 
 	globalFlags struct {
-		Help          bool
-		Version       bool
-		Debug         bool
 		Server        string
 		Key           string
+		Debug         bool
+		Version       bool
+		Help          bool
 	}
 )
 
@@ -85,21 +85,13 @@ func init() {
 	out = new(tabwriter.Writer)
 	out.Init(os.Stdout, 0, 8, 1, '\t', 0)
 
-	server := "http://localhost:8000"
-	if serverEnv := os.Getenv("UPDATECTL_SERVER"); serverEnv != "" {
-		server = serverEnv
-	}
-
 	globalFlagSet = flag.NewFlagSet(cliName, flag.ExitOnError)
-	globalFlagSet.BoolVar(&globalFlags.Help, "help", false, "Print usage information and exit")
-	globalFlagSet.BoolVar(&globalFlags.Help, "h", false, "Print usage information and exit")
-	globalFlagSet.BoolVar(&globalFlags.Version, "version", false, "Print version information and exit")
-	globalFlagSet.BoolVar(&globalFlags.Version, "v", false, "Print version information and exit")
+
+	globalFlagSet.StringVarP(&globalFlags.Key, "providers", "p", os.Getenv(envVarConv(cliName, "providers")), "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'")
 
 	globalFlagSet.BoolVar(&globalFlags.Debug, "debug", false, "Output debugging info to stderr")
-
-	globalFlagSet.StringVar(&globalFlags.Server, "server", server, "Update server to connect to")
-	globalFlagSet.StringVar(&globalFlags.Key, "key", os.Getenv("NODECTL_KEY"), "API Key")
+	globalFlagSet.BoolVar(&globalFlags.Version, "version", "v", false, "Print version information and exit")
+	globalFlagSet.BoolVar(&globalFlags.Help, "help", "h", false, "Print usage information and exit")
 
 	commands = []*Command{
 		cmdDemo,
@@ -111,8 +103,6 @@ type handlerFunc func([]string, *tabwriter.Writer) int
 
 func handle(fn handlerFunc) func(f *flag.FlagSet) int {
 	return func(f *flag.FlagSet) (exit int) {
-		//key := globalFlags.Key
-
 		exit = fn(f.Args(), out)
 		return
 	}
@@ -121,18 +111,6 @@ func handle(fn handlerFunc) func(f *flag.FlagSet) int {
 func printVersion(out *tabwriter.Writer) {
 	fmt.Fprintf(out, "%s version %s\n", cliName, common.Version)
 	out.Flush()
-}
-
-func getAllFlags() (flags []*flag.Flag) {
-	return getFlags(globalFlagSet)
-}
-
-func getFlags(flagset *flag.FlagSet) (flags []*flag.Flag) {
-	flags = make([]*flag.Flag, 0)
-	flagset.VisitAll(func(f *flag.Flag) {
-		flags = append(flags, f)
-	})
-	return
 }
 
 func findCommand(search string, args []string, commands []*Command) (cmd *Command, name string) {
@@ -183,8 +161,6 @@ func main() {
 	if len(args) < 1 {
 		args = append(args, "help")
 	}
-
-	globalFlags.Server = strings.TrimRight(globalFlags.Server, "/")
 
 	cmd, name := findCommand("", args, commands)
 
