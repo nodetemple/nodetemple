@@ -19,8 +19,8 @@ package main
 var (
 	cmdDemo = &Command{
 		Name:        "demo",
-		Summary:     "Just a demo command",
 		Usage:       "[arguments]...",
+		Summary:     "Just a demo command",
 		Description: "Just a demo command, lorem ipsum",
 		Run:         runDemo,
 	}

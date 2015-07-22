@@ -27,8 +27,8 @@ import (
 var (
 	cmdHelp = &Command{
 		Name:        "help",
-		Summary:     "Show a list of commands or help for one command",
 		Usage:       "<command>",
+		Summary:     "Show a list of commands or help for one command",
 		Description: "Show a list of commands or detailed help for one command",
 		Run:         runHelp,
 	}
@@ -86,17 +86,13 @@ USAGE:
 {{if .Cmd.Description}}DESCRIPTION:{{range $line := descToLines .Cmd.Description}}
 {{printf "\t%s" $line}}{{end}}
 
-{{end}}\
-{{if .Cmd.Subcommands}}COMMANDS:{{range .Cmd.Subcommands}}
+{{end}}{{if .Cmd.Subcommands}}COMMANDS:{{range .Cmd.Subcommands}}
 {{printf "\t%s\t%s" .Name .Summary}}{{end}}
 
-{{end}}\
-{{if .CmdFlags}}FLAGS:{{range .CmdFlags}}
+{{end}}{{if .CmdFlags}}FLAGS:{{range .CmdFlags}}
 {{printFlag .Shorthand .Name .DefValue .Usage}}{{end}}
 
-{{end}}\
-
-For help on global flags run "{{.Executable}} help"
+{{end}}For help on global flags run "{{.Executable}} help"
 `[1:]))
 }
 

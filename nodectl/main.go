@@ -44,8 +44,8 @@ type StringFlag struct {
 
 type Command struct {
 	Name        string
-	Summary     string
 	Usage       string
+	Summary     string
 	Description string
 	Flags       flag.FlagSet
 	Run         handlerFunc
