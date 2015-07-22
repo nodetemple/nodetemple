@@ -49,7 +49,7 @@ var (
 			if len(shorthand) > 0 {
 				format = "    -%s, " + format
 			} else {
-				format = "     %s  " + format
+				format = "     %s   " + format
 			}
 			return fmt.Sprintf(format, shorthand, name, defvalue, usage)
 		},
