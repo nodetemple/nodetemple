@@ -71,10 +71,10 @@ COMMANDS:{{range .Commands}}
 GLOBAL FLAGS:{{range .Flags}}
 {{printFlag .Shorthand .Name .DefValue .Usage}}{{end}}
 
-Global flags can also be configured via upper-case environment variables prefixed with "{{.ExeEnvPrefix}}_"
-For example: "--some-flag" => "{{.ExeEnvPrefix}}_SOME_FLAG"
+Global flags can also be configured via upper-case environment variables prefixed with '{{.ExeEnvPrefix}}_'
+For example: '--some-flag' => '{{.ExeEnvPrefix}}_SOME_FLAG'
 
-Run "{{.Executable}} help <command>" for more details on a specific command
+Run '{{.Executable}} help <command>' for more details on a specific command
 `[1:]))
 	commandUsageTemplate = template.Must(template.New("command_usage").Funcs(templFuncs).Parse(`
 NAME:
@@ -92,7 +92,7 @@ USAGE:
 {{end}}{{if .CmdFlags}}FLAGS:{{range .CmdFlags}}
 {{printFlag .Shorthand .Name .DefValue .Usage}}{{end}}
 
-{{end}}For help on global flags run "{{.Executable}} help"
+{{end}}For help on global flags run '{{.Executable}} help'
 `[1:]))
 }
 
