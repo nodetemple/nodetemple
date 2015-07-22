@@ -20,6 +20,8 @@ import (
 	"os"
 	"fmt"
 	"strings"
+
+	flag "github.com/ogier/pflag"
 )
 
 func stdout(format string, a ...interface{}) {
