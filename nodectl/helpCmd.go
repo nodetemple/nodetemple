@@ -109,7 +109,7 @@ func runHelp(args []string) int {
 	}
 
 	if cmd == nil {
-		fmt.Printf("Unrecognized command: %v\n", args[0])
+		fmt.Printf("Unrecognized command: %s\n", args[0])
 		return ERROR_NO_COMMAND
 	}
 

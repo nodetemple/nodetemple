@@ -164,8 +164,8 @@ func main() {
 	cmd, name := findCommand("", args, commands)
 
 	if cmd == nil {
-		fmt.Printf("Error: unknown command: '%v'\n", name)
-		fmt.Printf("Run '%v help' for usage information\n", cliName)
+		fmt.Printf("Error: unknown command: '%s'\n", name)
+		fmt.Printf("Run '%s help' for usage information\n", cliName)
 		os.Exit(ERROR_NO_COMMAND)
 	}
 
