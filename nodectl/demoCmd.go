@@ -16,10 +16,6 @@ limitations under the License.
 
 package main
 
-import (
-	"fmt"
-)
-
 var (
 	cmdDemo = &Command{
 		Name:        "demo",
@@ -35,6 +31,6 @@ func runDemo(args []string) int {
 		return ERROR_USAGE
 	}
 
-	fmt.Printf("Demo is %s\n", "ok")
+	stdout("Demo is %s\n", "ok")
 	return OK
 }

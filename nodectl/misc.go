@@ -16,7 +16,12 @@ limitations under the License.
 
 package main
 
-/* TODO
+import (
+	"os"
+	"fmt"
+	"strings"
+)
+
 func stdout(format string, a ...interface{}) {
 	out := fmt.Sprintf(format, a...)
 	fmt.Fprintln(os.Stdout, strings.TrimSuffix(out, "\n"))
@@ -26,7 +31,23 @@ func stderr(format string, a ...interface{}) {
 	out := fmt.Sprintf("Error: " + format, a...)
 	fmt.Fprintln(os.Stderr, strings.TrimSuffix(out, "\n"))
 }
-*/
+
+func getFlagsFromEnv(prefix string, fs *flag.FlagSet) {
+	alreadySet := make(map[string]bool)
+	fs.Visit(func(f *flag.Flag) {
+		alreadySet[f.Name] = true
+	})
+	fs.VisitAll(func(f *flag.Flag) {
+		if !alreadySet[f.Name] {
+			key := strings.ToUpper(prefix + "_" + strings.Replace(f.Name, "-", "_", -1))
+			val := os.Getenv(key)
+			if val != "" {
+				fs.Set(f.Name, val)
+			}
+		}
+
+	})
+}
 
 func stringSliceContains(slice []string, item string) bool {
 	set := make(map[string]struct{}, len(slice))

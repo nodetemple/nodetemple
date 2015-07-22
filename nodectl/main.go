@@ -17,8 +17,8 @@ limitations under the License.
 package main
 
 import (
-	"fmt"
 	"os"
+	"fmt"
 	"strings"
 	"text/tabwriter"
 
@@ -42,22 +42,6 @@ type StringFlag struct {
 	required bool
 }
 
-func (f *StringFlag) Set(value string) error {
-	f.value = &value
-	return nil
-}
-
-func (f *StringFlag) Get() *string {
-	return f.value
-}
-
-func (f *StringFlag) String() string {
-	if f.value != nil {
-		return *f.value
-	}
-	return ""
-}
-
 type Command struct {
 	Name        string
 	Summary     string
@@ -68,14 +52,15 @@ type Command struct {
 	Subcommands []*Command
 }
 
+type handlerFunc func([]string) int
+
 var (
 	out           *tabwriter.Writer
 	globalFlagSet *flag.FlagSet
 	commands      []*Command
 
 	globalFlags struct {
-		Server        string
-		Key           string
+		Providers     string
 		Debug         bool
 		Version       bool
 		Help          bool
@@ -88,7 +73,7 @@ func init() {
 
 	globalFlagSet = flag.NewFlagSet(cliName, flag.ExitOnError)
 
-	globalFlagSet.StringVarP(&globalFlags.Key, "providers", "p", "", "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'")
+	globalFlagSet.StringVarP(&globalFlags.Providers, "providers", "p", "", "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'")
 
 	globalFlagSet.BoolVar(&globalFlags.Debug, "debug", false, "Output debugging info to stderr")
 	globalFlagSet.BoolVarP(&globalFlags.Version, "version", "v", false, "Print version information and exit")
@@ -100,7 +85,44 @@ func init() {
 	}
 }
 
-type handlerFunc func([]string) int
+func main() {
+	globalFlagSet.Parse(os.Args[1:])
+	var args = globalFlagSet.Args()
+	getFlagsFromEnv(cliName, globalFlagSet)
+
+	if globalFlags.Version {
+		stdout("%s version %s", cliName, cliVersion)
+		os.Exit(OK)
+	}
+
+	if globalFlags.Help {
+		printGlobalUsage()
+		os.Exit(OK)
+	}
+
+	if len(args) < 1 {
+		args = append(args, "help")
+	}
+
+	cmd, name := findCommand("", args, commands)
+
+	if cmd == nil {
+		stderr("Error: unknown command: %s", name)
+		stderr("Run '%s help' for usage information", cliName)
+		os.Exit(ERROR_NO_COMMAND)
+	}
+
+	if cmd.Run == nil {
+		printCommandUsage(cmd)
+		os.Exit(ERROR_USAGE)
+	} else {
+		exit := handle(cmd.Run)(&cmd.Flags)
+		if exit == ERROR_USAGE {
+			printCommandUsage(cmd)
+		}
+		os.Exit(exit)
+	}
+}
 
 func handle(fn handlerFunc) func(f *flag.FlagSet) int {
 	return func(f *flag.FlagSet) (exit int) {
@@ -138,60 +160,4 @@ func findCommand(search string, args []string, commands []*Command) (cmd *Comman
 		}
 	}
 	return
-}
-
-func getFlagsFromEnv(prefix string, fs *flag.FlagSet) {
-	alreadySet := make(map[string]bool)
-	fs.Visit(func(f *flag.Flag) {
-		alreadySet[f.Name] = true
-	})
-	fs.VisitAll(func(f *flag.Flag) {
-		if !alreadySet[f.Name] {
-			key := strings.ToUpper(prefix + "_" + strings.Replace(f.Name, "-", "_", -1))
-			val := os.Getenv(key)
-			if val != "" {
-				fs.Set(f.Name, val)
-			}
-		}
-
-	})
-}
-
-func main() {
-	globalFlagSet.Parse(os.Args[1:])
-	var args = globalFlagSet.Args()
-	getFlagsFromEnv(cliName, globalFlagSet)
-
-	if globalFlags.Version {
-		fmt.Printf("%s version %s\n", cliName, cliVersion)
-		os.Exit(OK)
-	}
-
-	if globalFlags.Help {
-		printGlobalUsage()
-		os.Exit(OK)
-	}
-
-	if len(args) < 1 {
-		args = append(args, "help")
-	}
-
-	cmd, name := findCommand("", args, commands)
-
-	if cmd == nil {
-		fmt.Printf("Error: unknown command: %s\n", name)
-		fmt.Printf("Run '%s help' for usage information\n", cliName)
-		os.Exit(ERROR_NO_COMMAND)
-	}
-
-	if cmd.Run == nil {
-		printCommandUsage(cmd)
-		os.Exit(ERROR_USAGE)
-	} else {
-		exit := handle(cmd.Run)(&cmd.Flags)
-		if exit == ERROR_USAGE {
-			printCommandUsage(cmd)
-		}
-		os.Exit(exit)
-	}
 }
