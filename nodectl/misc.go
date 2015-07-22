@@ -21,8 +21,6 @@ import (
 )
 
 /* TODO
-stderr("unknown command '%v'\nRun '%v help [command]' for usage information", command, c.App.Name)
-
 func stdout(format string, a ...interface{}) {
 	out := fmt.Sprintf(format, a...)
 	fmt.Fprintln(os.Stdout, strings.TrimSuffix(out, "\n"))

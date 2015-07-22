@@ -36,6 +36,6 @@ func runDemo(args []string, out *tabwriter.Writer) int {
 		return ERROR_USAGE
 	}
 
-	fmt.Printf("Demo is %s\n", "ok")
+	fmt.Printf("Demo is %s", "ok")
 	return OK
 }

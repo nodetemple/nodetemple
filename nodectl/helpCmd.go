@@ -110,7 +110,7 @@ func runHelp(args []string, out *tabwriter.Writer) int {
 	}
 
 	if cmd == nil {
-		fmt.Println("Unrecognized command:", args[0])
+		fmt.Printf("Unrecognized command: %v", args[0])
 		return ERROR_NO_COMMAND
 	}
 
