@@ -23,7 +23,7 @@ import (
 	"text/template"
 
 	"github.com/nodetemple/nodetemple/common"
-	"github.com/ogier/pflag"
+	flag "github.com/ogier/pflag"
 )
 
 var (
@@ -117,13 +117,13 @@ func printGlobalUsage() {
 	globalUsageTemplate.Execute(out, struct {
 		Executable  string
 		Commands    []*Command
-		Flags       *pflag.FlagSet
+		Flags       []*flag.Flag
 		Description string
 		Version     string
 	}{
 		cliName,
 		commands,
-		cmd.Flags(),
+		getAllFlags(),
 		cliDescription,
 		common.Version,
 	})
@@ -133,11 +133,11 @@ func printCommandUsage(cmd *Command) {
 	commandUsageTemplate.Execute(out, struct {
 		Executable string
 		Cmd        *Command
-		CmdFlags   *pflag.FlagSet
+		CmdFlags   []*flag.Flag
 	}{
 		cliName,
 		cmd,
-		cmd.Flags(),
+		getFlags(&cmd.Flags),
 	})
 }
 
