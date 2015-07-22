@@ -66,7 +66,7 @@ COMMANDS:{{range .Commands}}
 {{printf "\t%s\t%s" .Name .Summary}}{{end}}
 
 GLOBAL OPTIONS:{{range .Flags}}
-{{printOption .Name .DefValue .Usage}}{{end}}
+{{printOption .Name .Shorthand .DefValue .Usage}}{{end}}
 
 Run "{{.Executable}} help <command>" for more details on a specific command.
 `[1:]))
@@ -84,7 +84,7 @@ DESCRIPTION:
 {{printf "\t%s\t%s" .Name .Summary}}{{end}}
 {{end}}
 {{if .CmdFlags}}OPTIONS:{{range .CmdFlags}}
-{{printOption .Name .DefValue .Usage}}{{end}}
+{{printOption .Name .Shorthand .DefValue .Usage}}{{end}}
 {{end}}For help on global options run "{{.Executable}} help"
 `[1:]))
 }
@@ -133,11 +133,11 @@ func printCommandUsage(cmd *Command) {
 	commandUsageTemplate.Execute(out, struct {
 		Executable string
 		Cmd        *Command
-		CmdFlags   []*flag.Flag
+		CmdFlags   *flag.FlagSet
 	}{
 		cliName,
 		cmd,
-		getFlags(&cmd.Flags),
+		cmd.Flags(),
 	})
 }
 
