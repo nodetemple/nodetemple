@@ -90,8 +90,8 @@ func init() {
 	globalFlagSet.StringVarP(&globalFlags.Key, "providers", "p", os.Getenv(envVarConv(cliName, "providers")), "A comma-separated list of IaaS providers ("+strings.Join(common.AvailableProviders, ",")+") and API keys, format: 'provider:api-key,...'")
 
 	globalFlagSet.BoolVar(&globalFlags.Debug, "debug", false, "Output debugging info to stderr")
-	globalFlagSet.BoolVar(&globalFlags.Version, "version", "v", false, "Print version information and exit")
-	globalFlagSet.BoolVar(&globalFlags.Help, "help", "h", false, "Print usage information and exit")
+	globalFlagSet.BoolVarP(&globalFlags.Version, "version", "v", false, "Print version information and exit")
+	globalFlagSet.BoolVarP(&globalFlags.Help, "help", "h", false, "Print usage information and exit")
 
 	commands = []*Command{
 		cmdDemo,
