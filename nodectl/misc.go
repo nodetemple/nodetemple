@@ -30,7 +30,7 @@ func stdout(format string, a ...interface{}) {
 }
 
 func stderr(format string, a ...interface{}) {
-	out := fmt.Sprintf("Error: " + format, a...)
+	out := fmt.Sprintf(format, a...)
 	fmt.Fprintln(os.Stderr, strings.TrimSuffix(out, "\n"))
 }
 
