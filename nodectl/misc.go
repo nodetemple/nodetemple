@@ -16,10 +16,6 @@ limitations under the License.
 
 package main
 
-import (
-	"strings"
-)
-
 /* TODO
 func stdout(format string, a ...interface{}) {
 	out := fmt.Sprintf(format, a...)
