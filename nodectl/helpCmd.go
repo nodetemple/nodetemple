@@ -83,15 +83,20 @@ NAME:
 USAGE:
 {{printf "\t%s %s %s" .Executable .Cmd.Name .Cmd.Usage}}
 
-DESCRIPTION:{{range $line := descToLines .Cmd.Description}}
+{{if .Cmd.Description}}DESCRIPTION:{{range $line := descToLines .Cmd.Description}}
 {{printf "\t%s" $line}}{{end}}
+
+{{end}}\
 {{if .Cmd.Subcommands}}COMMANDS:{{range .Cmd.Subcommands}}
 {{printf "\t%s\t%s" .Name .Summary}}{{end}}
 
-{{end}}{{if .CmdFlags}}FLAGS:{{range .CmdFlags}}
+{{end}}\
+{{if .CmdFlags}}FLAGS:{{range .CmdFlags}}
 {{printFlag .Shorthand .Name .DefValue .Usage}}{{end}}
 
-{{end}}For help on global flags run "{{.Executable}} help"
+{{end}}\
+
+For help on global flags run "{{.Executable}} help"
 `[1:]))
 }
 
