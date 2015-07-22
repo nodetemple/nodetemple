@@ -31,6 +31,6 @@ func runDemo(args []string) int {
 		return ERROR_USAGE
 	}
 
-	stdout("Demo is %s\n", "ok")
+	stdout("Demo is %s", "ok")
 	return OK
 }

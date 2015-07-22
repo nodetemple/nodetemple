@@ -112,8 +112,8 @@ func runHelp(args []string) int {
 	}
 
 	if cmd == nil {
-		stderr("Error: unknown command '%s'\n", args[0])
-		stderr("Run '%s help' for usage information\n", cliName)
+		stderr("Error: unknown command '%s'", args[0])
+		stderr("Run '%s help' for usage information", cliName)
 		return ERROR_NO_COMMAND
 	}
 
