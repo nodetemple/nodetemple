@@ -28,7 +28,7 @@ var (
 	cmdHelp = &Command{
 		Name:        "help",
 		Summary:     "Show a list of commands or help for one command",
-		Usage:       "[COMMAND]",
+		Usage:       "<command>",
 		Description: "Show a list of commands or detailed help for one command",
 		Run:         runHelp,
 	}
@@ -39,7 +39,7 @@ var (
 		"descToLines": func(s string) []string {
 			return strings.Split(strings.Trim(s, "\n\t "), "\n")
 		},
-		"printOption": func(shorthand, name, defvalue, usage string) string {
+		"printFlag": func(shorthand, name, defvalue, usage string) string {
 			format := "--%s=%s\t%s"
 			/*if _, ok := flag.Value.(*stringValue); ok {
 				format = "--%s=%q\t%s"
@@ -60,7 +60,7 @@ NAME:
 {{printf "\t%s - %s" .Executable .Description}}
 
 USAGE:
-{{printf "\t%s" .Executable}} [global options] <command> [command options] [arguments...]
+{{printf "\t%s" .Executable}} [global flags] <command> [command flags] [arguments...]
 
 VERSION:
 {{printf "\t%s" .Version}}
@@ -68,10 +68,13 @@ VERSION:
 COMMANDS:{{range .Commands}}
 {{printf "\t%s\t%s" .Name .Summary}}{{end}}
 
-GLOBAL OPTIONS:{{range .Flags}}
-{{printOption .Shorthand .Name .DefValue .Usage}}{{end}}
+GLOBAL FLAGS:{{range .Flags}}
+{{printFlag .Shorthand .Name .DefValue .Usage}}{{end}}
 
-Run "{{.Executable}} help <command>" for more details on a specific command.
+Global flags can also be configured via upper-case environment variables prefixed with "{{.ExeEnvPrefix}}_"
+For example, "--some-flag" => "{{.ExeEnvPrefix}}_SOME_FLAG"
+
+Run "{{.Executable}} help <command>" for more details on a specific command
 `[1:]))
 	commandUsageTemplate = template.Must(template.New("command_usage").Funcs(templFuncs).Parse(`
 NAME:
@@ -83,10 +86,12 @@ USAGE:
 DESCRIPTION:{{range $line := descToLines .Cmd.Description}}
 {{printf "\t%s" $line}}{{end}}
 {{if .Cmd.Subcommands}}COMMANDS:{{range .Cmd.Subcommands}}
-{{printf "\t%s\t%s" .Name .Summary}}{{end}}{{end}}
-{{if .CmdFlags}}OPTIONS:{{range .CmdFlags}}
-{{printOption .Shorthand .Name .DefValue .Usage}}{{end}}{{end}}
-For help on global options run "{{.Executable}} help"
+{{printf "\t%s\t%s" .Name .Summary}}{{end}}
+
+{{end}}{{if .CmdFlags}}FLAGS:{{range .CmdFlags}}
+{{printFlag .Shorthand .Name .DefValue .Usage}}{{end}}
+
+{{end}}For help on global flags run "{{.Executable}} help"
 `[1:]))
 }
 
@@ -133,11 +138,13 @@ func printGlobalUsage() {
 
 func printCommandUsage(cmd *Command) {
 	commandUsageTemplate.Execute(out, struct {
-		Executable string
-		Cmd        *Command
-		CmdFlags   []*flag.Flag
+		Executable   string
+		ExeEnvPrefix string
+		Cmd          *Command
+		CmdFlags     []*flag.Flag
 	}{
 		cliName,
+		strings.ToUpper(cliName),
 		cmd,
 		getFlags(&cmd.Flags),
 	})
