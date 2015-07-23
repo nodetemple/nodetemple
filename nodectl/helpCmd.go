@@ -39,17 +39,17 @@ var (
 		"descToLines": func(s string) []string {
 			return strings.Split(strings.Trim(s, "\n\t "), "\n")
 		},
-		"printFlag": func(shorthand, name, defvalue, usage string) string {
+		"printFlag": func(f *flag.Flag) string {
 			format := "--%s=%s\t%s"
-			if _, ok := defvalue.(*stringValue); ok {
+			if _, ok := f.DefValue.(*stringValue); ok {
 				format = "--%s=%q\t%s"
 			}
-			if len(shorthand) > 0 {
+			if len(f.Shorthand) > 0 {
 				format = "    -%s, " + format
 			} else {
 				format = "     %s   " + format
 			}
-			return fmt.Sprintf(format, shorthand, name, defvalue, usage)
+			return fmt.Sprintf(format, f.Shorthand, f.Name, f.DefValue, f.Usage)
 		},
 	}
 )
@@ -68,8 +68,8 @@ VERSION:
 COMMANDS:{{range .Commands}}
 {{printf "\t%s\t%s" .Name .Summary}}{{end}}
 
-GLOBAL FLAGS:{{range .Flags}}
-{{printFlag .Shorthand .Name .DefValue .Usage}}{{end}}
+GLOBAL FLAGS:{{range $flag := .Flags}}
+{{printFlag $flag}}{{end}}
 
 Global flags can also be configured via upper-case environment variables prefixed with '{{.ExeEnvPrefix}}_'
 For example: '--some-flag' => '{{.ExeEnvPrefix}}_SOME_FLAG'
@@ -89,8 +89,8 @@ USAGE:
 {{end}}{{if .Cmd.Subcommands}}COMMANDS:{{range .Cmd.Subcommands}}
 {{printf "\t%s\t%s" .Name .Summary}}{{end}}
 
-{{end}}{{if .CmdFlags}}FLAGS:{{range .CmdFlags}}
-{{printFlag .Shorthand .Name .DefValue .Usage}}{{end}}
+{{end}}{{if .CmdFlags}}FLAGS:{{range $flag := .CmdFlags}}
+{{printFlag $flag}}{{end}}
 
 {{end}}For help on global flags run '{{.Executable}} help'
 `[1:]))
