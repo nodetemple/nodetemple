@@ -41,7 +41,7 @@ var (
 		},
 		"printFlag": func(f *flag.Flag) string {
 			format := "--%s=%s\t%s"
-			if _, ok := f.Value.(*stringValue); ok {
+			if _, ok := f.Value.(*flag.stringValue); ok {
 				format = "--%s='%s'\t%s"
 			}
 			if len(f.Shorthand) > 0 {
