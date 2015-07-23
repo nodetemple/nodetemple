@@ -17,14 +17,14 @@ limitations under the License.
 package main
 
 import (
-	"os"
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
+	"os"
 	"strings"
 	"text/tabwriter"
 
+	flag "github.com/nodetemple/nodetemple/Godeps/_workspace/src/github.com/ogier/pflag"
 	"github.com/nodetemple/nodetemple/common"
-	flag "github.com/ogier/pflag"
 )
 
 const (
@@ -61,10 +61,10 @@ var (
 	commands      []*Command
 
 	globalFlags struct {
-		Providers     string
-		Debug         bool
-		Version       bool
-		Help          bool
+		Providers string
+		Debug     bool
+		Version   bool
+		Help      bool
 	}
 )
 
@@ -93,7 +93,7 @@ func main() {
 		stderr("Error: %s", err)
 		stderr("Run '%s help' for usage information", cliName)
 		os.Exit(ERROR_USAGE)
-    }
+	}
 	var args = globalFlagSet.Args()
 	getFlagsFromEnv(cliName, globalFlagSet)
 

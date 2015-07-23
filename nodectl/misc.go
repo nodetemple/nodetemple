@@ -17,11 +17,11 @@ limitations under the License.
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 	"strings"
 
-	flag "github.com/ogier/pflag"
+	flag "github.com/nodetemple/nodetemple/Godeps/_workspace/src/github.com/ogier/pflag"
 )
 
 func stdout(format string, a ...interface{}) {
@@ -53,10 +53,10 @@ func getFlagsFromEnv(prefix string, fs *flag.FlagSet) {
 
 func stringSliceContains(slice []string, item string) bool {
 	set := make(map[string]struct{}, len(slice))
-    for _, s := range slice {
-        set[s] = struct{}{}
-    }
+	for _, s := range slice {
+		set[s] = struct{}{}
+	}
 
-    _, ret := set[item]
-    return ret
+	_, ret := set[item]
+	return ret
 }

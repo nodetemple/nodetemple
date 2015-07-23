@@ -21,7 +21,7 @@ import (
 	"strings"
 	"text/template"
 
-	flag "github.com/ogier/pflag"
+	flag "github.com/nodetemple/nodetemple/Godeps/_workspace/src/github.com/ogier/pflag"
 )
 
 var (
@@ -123,12 +123,12 @@ func runHelp(args []string) int {
 
 func printGlobalUsage() {
 	globalUsageTemplate.Execute(out, struct {
-		Executable  string
+		Executable   string
 		ExeEnvPrefix string
-		Commands    []*Command
-		Flags       []*flag.Flag
-		Description string
-		Version     string
+		Commands     []*Command
+		Flags        []*flag.Flag
+		Description  string
+		Version      string
 	}{
 		cliName,
 		strings.ToUpper(cliName),
@@ -141,9 +141,9 @@ func printGlobalUsage() {
 
 func printCommandUsage(cmd *Command) {
 	commandUsageTemplate.Execute(out, struct {
-		Executable   string
-		Cmd          *Command
-		CmdFlags     []*flag.Flag
+		Executable string
+		Cmd        *Command
+		CmdFlags   []*flag.Flag
 	}{
 		cliName,
 		cmd,
