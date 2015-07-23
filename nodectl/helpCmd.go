@@ -19,6 +19,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"reflect"
 	"text/template"
 
 	flag "github.com/nodetemple/nodetemple/Godeps/_workspace/src/github.com/ogier/pflag"
@@ -41,9 +42,9 @@ var (
 		},
 		"printFlag": func(shorthand, name, defvalue, usage string) string {
 			format := "--%s=%s\t%s"
-			/*if _, ok := flag.Value.(*stringValue); ok {
+			if typeOfValue := reflect.ValueOf(defvalue).Kind(); typeOfValue == reflect.String {
 				format = "--%s=%q\t%s"
-			}*/
+			}
 			if len(shorthand) > 0 {
 				format = "    -%s, " + format
 			} else {
