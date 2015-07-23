@@ -17,10 +17,10 @@ limitations under the License.
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
 	"os"
+	"fmt"
 	"strings"
+	"io/ioutil"
 	"text/tabwriter"
 
 	flag "github.com/nodetemple/nodetemple/Godeps/_workspace/src/github.com/ogier/pflag"

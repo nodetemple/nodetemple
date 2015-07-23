@@ -17,9 +17,10 @@ limitations under the License.
 package main
 
 import (
-	"fmt"
 	"os"
+	"fmt"
 	"strings"
+	"strconv"
 
 	flag "github.com/nodetemple/nodetemple/Godeps/_workspace/src/github.com/ogier/pflag"
 )
@@ -59,4 +60,17 @@ func stringSliceContains(slice []string, item string) bool {
 
 	_, ret := set[item]
 	return ret
+}
+
+func maybeString(s string) bool {
+	if _, err := strconv.Atoi(s); err == nil {
+		return false
+	}
+	if _, err := strconv.ParseFloat(s, 64); err == nil {
+		return false
+	}
+	if _, err := strconv.ParseBool(s); err == nil {
+		return false
+	}
+	return true
 }
