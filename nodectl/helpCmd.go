@@ -50,7 +50,7 @@ var (
 			} else {
 				format = "     %s   " + format
 			}
-			return fmt.Sprintf(format, f.Shorthand, f.Name, f.DefValue, f.Usage)
+			return fmt.Sprintf(format, f.Shorthand, f.Name, f.Value, f.Usage)
 		},
 	}
 )
