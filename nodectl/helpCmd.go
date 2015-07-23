@@ -41,8 +41,8 @@ var (
 		},
 		"printFlag": func(f *flag.Flag) string {
 			format := "--%s=%s\t%s"
-			if _, ok := f.DefValue.(*stringValue); ok {
-				format = "--%s=%q\t%s"
+			if _, ok := f.Value.(*stringValue); ok {
+				format = "--%s='%s'\t%s"
 			}
 			if len(f.Shorthand) > 0 {
 				format = "    -%s, " + format
@@ -104,6 +104,7 @@ func runHelp(args []string) int {
 
 	var cmd *Command
 
+	// TODO: does it search for all-level commands?
 	for _, c := range commands {
 		if c.Name == args[0] {
 			cmd = c
