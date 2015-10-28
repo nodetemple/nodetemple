@@ -1,5 +1,3 @@
-# WARNING: This repository is outdated/deprecated!
-
 # Nodetemple
 
 CoreOS and Kubernetes cluster orchestration tool
